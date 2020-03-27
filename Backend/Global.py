@@ -2,13 +2,11 @@ import random
 from math import ceil
 
 
-def random_bool():
-    return random.random() > 0.5
-
-
-def create_shuffled_array(items, expected_length, items_repeats=None):
+def create_shuffled_array(items, expected_length=None, items_repeats=None):
     if items_repeats is None:
         items_repeats = [1] * len(items)
+    if expected_length is None:
+        expected_length = sum(items_repeats)
 
     if len(items) != len(items_repeats):
         raise IndexError("items and items_repeats have different length")

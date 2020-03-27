@@ -1,6 +1,5 @@
 from random import random
-
-from Global import Configuration as c, create_shuffled_array
+from Backend.Global import Configuration as c, create_shuffled_array
 
 
 class Condition:
@@ -10,7 +9,7 @@ class Condition:
         self.switch_generator_function = switch_generator_function
 
 
-CONJUNCTION_CONDITION = Condition(c.CONJUNCTION_CONDITION_BLOCKS_NUMBER, c.CONJUNCTION_CONDITION_BLOCKS_NUMBER,
+CONJUNCTION_CONDITION = Condition(c.CONJUNCTION_CONDITION_NAME, c.CONJUNCTION_CONDITION_BLOCKS_NUMBER,
                                   lambda length: [False for _ in range(length)])
 SWITCH_CONDITION = Condition(c.SWITCH_CONDITION_NAME, c.SWITCH_CONDITION_BLOCKS_NUMBER,
                              lambda length: [True for _ in range(length)])
