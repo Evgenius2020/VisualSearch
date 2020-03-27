@@ -1,6 +1,6 @@
 from random import random
 
-from Global import Configuration as c, get_counterbalanced_array
+from Global import Configuration as c, create_shuffled_array
 
 from Conditions import Condition
 
@@ -16,8 +16,8 @@ class Block:
     def __init__(self, condition: Condition):
         orientation_is_vertical = random() > 0.5
         switches = condition.switch_generator_function(c.TRIALS_PER_BLOCK)
-        targets_number = get_counterbalanced_array([4, 8, 12, 16], c.TRIALS_PER_BLOCK)
-        target_presence = get_counterbalanced_array([True, False], c.TRIALS_PER_BLOCK)
+        targets_number = create_shuffled_array([4, 8, 12, 16], c.TRIALS_PER_BLOCK)
+        target_presence = create_shuffled_array([True, False], c.TRIALS_PER_BLOCK)
         target_orientations = []
         trials = []
         for i in range(c.TRIALS_PER_BLOCK):

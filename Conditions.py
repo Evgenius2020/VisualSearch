@@ -1,6 +1,6 @@
 from random import random
 
-from Global import Configuration as c, get_counterbalanced_array
+from Global import Configuration as c, create_shuffled_array
 
 
 class Condition:
@@ -17,7 +17,7 @@ SWITCH_CONDITION = Condition(c.SWITCH_CONDITION_NAME, c.SWITCH_CONDITION_BLOCKS_
 STREAK_CONDITION = Condition(c.STREAK_CONDITION_NAME, c.STREAK_CONDITION_BLOCKS_NUMBER,
                              lambda length: streak_switch_generator(length))
 RANDOM_CONDITION = Condition(c.RANDOM_CONDITION_NAME, c.RANDOM_CONDITION_BLOCKS_NUMBER,
-                             lambda length: get_counterbalanced_array([True, False], length))
+                             lambda length: create_shuffled_array([True, False], length))
 
 
 def streak_switch_probability(streak_length):
