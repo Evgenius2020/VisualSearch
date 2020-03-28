@@ -1,11 +1,10 @@
-import sys
-
 from PyQt5 import QtCore
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QStackedWidget, QApplication, QFormLayout
 
+from Backend.Bar import Bar
 from Frontend.Pages.IntroPage import IntroPage
-from Frontend.Trial import Trial, Bar
+from Frontend.Pages.TrialPage import TrialPage
 
 
 class Application(QWidget):
@@ -14,7 +13,7 @@ class Application(QWidget):
         self.showFullScreen()
         self.StackedWidget = QStackedWidget(self)
         self.StackedWidget.addWidget(IntroPage())
-        self.trial = Trial()
+        self.trial = TrialPage()
         self.trial.set_bars_to_display([Bar(0, 0, False, False), Bar(3, 3, True, True)])
         self.StackedWidget.addWidget(self.trial)
 
@@ -34,11 +33,7 @@ class Application(QWidget):
             self.display(1)
 
 
-def runApplication():
-    app = QApplication(sys.argv)
+def run_application(experiment):
+    app = QApplication([])
     ex = Application()
-    sys.exit(app.exec_())
-
-
-if __name__ == '__main__':
-    runApplication()
+    app.exec_()
