@@ -1,66 +1,93 @@
-import sys
 from random import random
 
 from PyQt5.QtGui import QPainter, QColor
 from PyQt5.QtWidgets import *
 
 
-class Example(QWidget):
+class Bar:
+    def __init__(self, grid_sector_id, bar_box_id, color_is_red, orientation_is_vertical):
+        self.grid_sector_id = grid_sector_id
+        self.bar_box_id = bar_box_id
+        self.color_is_red = color_is_red
+        self.orientation_is_vertical = orientation_is_vertical
+        self.shift = (random(), random())
+
+
+class Trial(QWidget):
+    class RenderOptions:
+        grid_start_coord = None
+        bar_box_size = None
+        bar_box_padding = None
+        bar_vertical_size = None
+        bar_vertical_shift_size = None
+        bar_horizontal_size = None
+        bar_horizontal_shift_size = None
+
     def __init__(self):
         super().__init__()
         self.showFullScreen()
         self.setStyleSheet("background-color: black;")
-        self.ww = self.size().width()
-        self.wh = self.size().height()
-        self.setGeometry(0, 0, self.ww, self.wh)
+
+        # 0  1  2  3
+        # 4  5  6  7
+        # 8  9  10 11
+        # 12 13 14 15
+        self.__grid_bars_ids__ = [[0, 1, 4, 5], [2, 3, 6, 7], [8, 9, 12, 13], [10, 11, 14, 15]]
+        self.__bars_to_display__ = []
 
         # square stimulus area
-        self.grid_margin = (self.ww // 50, self.ww // 50)
-        self.grid_start_coord = ((self.ww - self.wh) // 2 + self.grid_margin[0], self.grid_margin[1])
-        self.grid_size = (self.wh - self.grid_margin[0] * 2, self.wh - self.grid_margin[1] * 2)
-        self.grid_bars_ids = [[0, 1, 4, 5], [2, 3, 6, 7], [8, 9, 12, 13], [10, 11, 14, 15]]
-        self.bar_box_size = (self.grid_size[0] // 4, self.grid_size[1] // 4)
-        self.bar_box_padding = (self.bar_box_size[0] // 20, self.bar_box_size[1] // 20)
-        self.bar_vertical_size = (self.bar_box_size[0] // 10 * 2, self.bar_box_size[1] // 10 * 7)
-        self.bar_vertical_shift_size = (self.bar_box_size[0] - self.bar_vertical_size[0] - 2 * self.bar_box_padding[0],
-                                        self.bar_box_size[1] - self.bar_vertical_size[1] - 2 * self.bar_box_padding[1])
-        self.bar_horizontal_size = (self.bar_vertical_size[1], self.bar_vertical_size[0])
-        self.bar_horizontal_shift_size = (
-            self.bar_box_size[0] - self.bar_horizontal_size[0] - 2 * self.bar_box_padding[0],
-            self.bar_box_size[1] - self.bar_horizontal_size[1] - 2 * self.bar_box_padding[1])
+        ww = self.size().width()
+        wh = self.size().height()
+        self.setGeometry(0, 0, ww, wh)
+        ro = self.RenderOptions()
+        grid_margin = (ww // 50, ww // 50)
+        grid_size = (wh - grid_margin[0] * 2, wh - grid_margin[1] * 2)
+        ro.grid_start_coord = ((ww - wh) // 2 + grid_margin[0], grid_margin[1])
+        ro.bar_box_size = (grid_size[0] // 4, grid_size[1] // 4)
+        ro.bar_box_padding = (ro.bar_box_size[0] // 20, ro.bar_box_size[1] // 20)
+        ro.bar_vertical_size = (ro.bar_box_size[0] // 10 * 2, ro.bar_box_size[1] // 10 * 7)
+        ro.bar_vertical_shift_size = (ro.bar_box_size[0] - ro.bar_vertical_size[0] - 2 * ro.bar_box_padding[0],
+                                      ro.bar_box_size[1] - ro.bar_vertical_size[1] - 2 * ro.bar_box_padding[1])
+        ro.bar_horizontal_size = (ro.bar_vertical_size[1], ro.bar_vertical_size[0])
+        ro.bar_horizontal_shift_size = (
+            ro.bar_box_size[0] - ro.bar_horizontal_size[0] - 2 * ro.bar_box_padding[0],
+            ro.bar_box_size[1] - ro.bar_horizontal_size[1] - 2 * ro.bar_box_padding[1])
+        self.__render_options__ = ro
+
+    def __generate_bar_rect__(self, bar):
+        ro = self.__render_options__
+        grid_id = self.__grid_bars_ids__[bar.grid_sector_id][bar.bar_box_id]
+        x = ro.grid_start_coord[0] + (grid_id % 4) * ro.bar_box_size[0] + ro.bar_box_padding[0]
+        y = ro.grid_start_coord[1] + (grid_id // 4) * ro.bar_box_size[1] + ro.bar_box_padding[1]
+        if bar.orientation_is_vertical:
+            x += int(ro.bar_vertical_shift_size[0] * bar.shift[0])
+            y += int(ro.bar_vertical_shift_size[1] * bar.shift[1])
+            return x, y, ro.bar_vertical_size[0], ro.bar_vertical_size[1]
+        else:
+            x += int(ro.bar_horizontal_shift_size[0] * bar.shift[0])
+            y += int(ro.bar_horizontal_shift_size[1] * bar.shift[1])
+            return x, y, ro.bar_horizontal_size[0], ro.bar_horizontal_size[1]
 
     def paintEvent(self, e):
         qp = QPainter()
         qp.begin(self)
 
-        for grid_sector in range(4):
-            for grid_square in range(4):
-                if random() > 0.5:
-                    qp.setBrush(QColor(255, 0, 0))
-                else:
-                    qp.setBrush(QColor(0, 255, 0))
-                bar_x, bar_y, bar_width, bar_height = self.generate_bar_rect(grid_sector, grid_square, random() > 0.5)
-                qp.drawRect(bar_x, bar_y, bar_width, bar_height)
+        for bar in self.__bars_to_display__:
+            if bar.color_is_red:
+                qp.setBrush(QColor(255, 0, 0))
+            else:
+                qp.setBrush(QColor(0, 255, 0))
+            bar_x, bar_y, bar_width, bar_height = self.__generate_bar_rect__(bar)
+            qp.drawRect(bar_x, bar_y, bar_width, bar_height)
         qp.end()
 
-    def generate_bar_rect(self, square, sector, vertical):
-        grid_id = self.grid_bars_ids[square][sector]
-        x = self.grid_start_coord[0] + (grid_id % 4) * self.bar_box_size[0] + self.bar_box_padding[0]
-        y = self.grid_start_coord[1] + (grid_id // 4) * self.bar_box_size[1] + self.bar_box_padding[1]
-        if vertical:
-            x += int(self.bar_vertical_shift_size[0] * random())
-            y += int(self.bar_vertical_shift_size[1] * random())
-            return x, y, self.bar_vertical_size[0], self.bar_vertical_size[1]
-        else:
-            x += int(self.bar_horizontal_shift_size[0] * random())
-            y += int(self.bar_horizontal_shift_size[1] * random())
-            return x, y, self.bar_horizontal_size[0], self.bar_horizontal_size[1]
-
-    def keyPressEvent(self, ev):
+    def set_bars_to_display(self, bars_to_display):
+        self.__bars_to_display__ = bars_to_display
         self.repaint()
 
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    ex = Example()
-    sys.exit(app.exec_())
+    app = QApplication([])
+    ex = Trial()
+    ex.set_bars_to_display([Bar(0, 0, False, False), Bar(3, 3, True, True)])
+    app.exec_()
