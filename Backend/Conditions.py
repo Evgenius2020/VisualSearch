@@ -1,5 +1,7 @@
 from random import random
-from Backend.Global import Configuration as c, create_shuffled_array
+
+from Backend.CreateShuffleArray import create_shuffled_array
+from Configuration import Configuration as c
 
 
 class Condition:

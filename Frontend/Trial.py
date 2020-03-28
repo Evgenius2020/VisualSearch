@@ -26,8 +26,6 @@ class Trial(QWidget):
     def __init__(self):
         super().__init__()
         self.showFullScreen()
-        self.setStyleSheet("background-color: black;")
-
         # 0  1  2  3
         # 4  5  6  7
         # 8  9  10 11
@@ -84,10 +82,3 @@ class Trial(QWidget):
     def set_bars_to_display(self, bars_to_display):
         self.__bars_to_display__ = bars_to_display
         self.repaint()
-
-
-if __name__ == '__main__':
-    app = QApplication([])
-    ex = Trial()
-    ex.set_bars_to_display([Bar(0, 0, False, False), Bar(3, 3, True, True)])
-    app.exec_()
