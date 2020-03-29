@@ -20,7 +20,7 @@ class Configuration:
     KEYBOARD_KEY_FOR_PRESENTED = None
     KEYBOARD_KEY_FOR_ABSENT = None
 
-    INTRO_TEXT = "In this experiment, red and green bars will be presented on screen.\n" \
+    INTRO_TEXT = "In this experiment red and green bars will be presented on screen.\n" \
                  "Your TARGET is a red bar whose orientation is different from other red bars on the screen\n" \
                  "TARGET may be absent on screen.\n" \
                  "You should determine whether TARGET is presented on screen."
@@ -29,3 +29,4 @@ class Configuration:
     KEY_BINDINGS_ABSENT_FORMAT_STRING = "Press '%s' if TARGET is absent on screen."
     FEEDBACK_CORRECT_TEXT = "Right!"
     FEEDBACK_INCORRECT_TEXT = "Wrong!"
+    EXPERIMENT_END_TEXT = "Experiment complete. Thanks for participating!"

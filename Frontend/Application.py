@@ -1,41 +1,52 @@
 from PyQt5 import QtCore
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QWidget, QStackedWidget, QApplication, QFormLayout
+from PyQt5.QtCore import QTimer
+from PyQt5.QtWidgets import QApplication
 
-from Backend.Bar import Bar
-from Frontend.Pages.IntroPage import IntroPage
-from Frontend.Pages.TrialPage import TrialPage
+from Configuration import Configuration
+from Frontend.PagesWidget import PagesWidget
 
 
-class Application(QWidget):
-    def __init__(self):
+class Application(PagesWidget):
+    def __init__(self, experiment):
         super().__init__()
-        self.showFullScreen()
-        pages = QStackedWidget(self)
-        pages.addWidget(IntroPage())
-        trial_page = TrialPage()
-        trial_page.set_bars_to_display([Bar(0, 0, False, False), Bar(3, 3, True, True)])
-        pages.addWidget(trial_page)
+        self.__experiment__ = experiment
 
-        self.__trial_page__ = trial_page
-        self.__pages__ = pages
-        self.setStyleSheet("QLabel { color : white; } Application {background-color: black;}")
-        self.setCursor(Qt.BlankCursor)
-        layout = QFormLayout()
-        layout.addWidget(pages)
-        self.setLayout(layout)
-        self.show()
+    def __on_trial_start__(self):
+        self.__current_trial__ = self.__experiment__.get_current_trial()
+        if self.__current_trial__ is None:
+            self.change_page(self.EXPERIMENT_END_PAGE)
+            return
+        self.set_trial_bars_to_display(self.__current_trial__.bars_to_display)
+        self.change_page(self.FIXATION_PAGE)
+        QTimer.singleShot(Configuration.FIXATION_DURATION, lambda: self.change_page(self.TRIAL_PAGE))
 
-    def __change_page__(self, i):
-        self.__pages__.setCurrentIndex(i)
+    def __on_trial_response__(self, answer_is_correct):
+        if answer_is_correct:
+            self.change_page(self.FEEDBACK_CORRECT_PAGE)
+        else:
+            self.change_page(self.FEEDBACK_INCORRECT_PAGE)
+        self.__experiment__.go_next_trial()
+        QTimer.singleShot(Configuration.FEEDBACK_DURATION, self.__on_trial_start__)
 
     def keyPressEvent(self, event):
         # print(event.text())
-        if event.key() == QtCore.Qt.Key_Space:
-            self.__change_page__(1)
+        if self.page == self.INTRO_PAGE:
+            if event.key() == QtCore.Qt.Key_Space:
+                self.__on_trial_start__()
+        elif self.page == self.TRIAL_PAGE:
+            answer = None
+            if event.text().upper() == Configuration.KEYBOARD_KEY_FOR_PRESENTED:
+                answer = Configuration.KEYBOARD_KEY_FOR_PRESENTED
+            elif event.text().upper() == Configuration.KEYBOARD_KEY_FOR_ABSENT:
+                answer = Configuration.KEYBOARD_KEY_FOR_ABSENT
+            if answer is not None:
+                answer_is_correct = \
+                    self.__current_trial__.target_is_presented and answer == Configuration.KEYBOARD_KEY_FOR_PRESENTED or \
+                    not self.__current_trial__.target_is_presented and answer == Configuration.KEYBOARD_KEY_FOR_ABSENT
+                self.__on_trial_response__(answer_is_correct)
 
 
 def run_application(experiment):
-    app = QApplication([])
-    ex = Application()
-    app.exec_()
+    qa = QApplication([])
+    application = Application(experiment)
+    qa.exec_()

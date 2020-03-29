@@ -18,20 +18,19 @@ class IntroPage(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.setStyleSheet("QLabel { font-size: 18px; qproperty-alignment: AlignCenter;}")
         layout = QVBoxLayout(self)
 
         label = QLabel(Configuration.INTRO_TEXT)
         layout.addWidget(label)
 
         presented_trial_page = TrialPage()
-        presented_trial_page.set_bars_to_display(Trial(12, True, True).generate_bars_to_display())
+        presented_trial_page.set_bars_to_display(Trial(12, True, True).bars_to_display)
         presented_example_page = self.ExamplePage(presented_trial_page,
                                                   Configuration.KEY_BINDINGS_PRESENTED_FORMAT_STRING %
                                                   Configuration.KEYBOARD_KEY_FOR_PRESENTED)
 
         absent_trial_page = TrialPage()
-        absent_trial_page.set_bars_to_display(Trial(16, False, False).generate_bars_to_display())
+        absent_trial_page.set_bars_to_display(Trial(16, False, False).bars_to_display)
         absent_example_page = self.ExamplePage(absent_trial_page,
                                                Configuration.KEY_BINDINGS_ABSENT_FORMAT_STRING %
                                                Configuration.KEYBOARD_KEY_FOR_ABSENT)
