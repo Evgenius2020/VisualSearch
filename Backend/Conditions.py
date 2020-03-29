@@ -1,6 +1,6 @@
 from random import random
 
-from Backend.CreateShuffleArray import create_shuffled_array
+from Backend.CreateShuffledArray import create_shuffled_array
 from Configuration import Configuration as c
 
 

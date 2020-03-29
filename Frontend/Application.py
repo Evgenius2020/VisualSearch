@@ -10,7 +10,7 @@ from Frontend.Pages.TrialPage import TrialPage
 class Application(QWidget):
     def __init__(self):
         super().__init__()
-        # self.showFullScreen()
+        self.showFullScreen()
         pages = QStackedWidget(self)
         pages.addWidget(IntroPage())
         trial_page = TrialPage()
@@ -30,6 +30,7 @@ class Application(QWidget):
         self.__pages__.setCurrentIndex(i)
 
     def keyPressEvent(self, event):
+        # print(event.text())
         if event.key() == QtCore.Qt.Key_Space:
             self.__change_page__(1)
 

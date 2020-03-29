@@ -3,7 +3,7 @@ import unittest
 from Backend.Block import Block
 from Backend.Conditions import streak_switch_probability
 import Backend.Conditions as cond
-from Backend.CreateShuffleArray import create_shuffled_array
+from Backend.CreateShuffledArray import create_shuffled_array
 from Configuration import Configuration as c
 
 
