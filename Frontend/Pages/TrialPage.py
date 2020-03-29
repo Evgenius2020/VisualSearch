@@ -14,14 +14,35 @@ class TrialPage(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.showFullScreen()
         # 0  1  2  3
         # 4  5  6  7
         # 8  9  10 11
         # 12 13 14 15
         self.__grid_bars_ids__ = [[0, 1, 4, 5], [2, 3, 6, 7], [8, 9, 12, 13], [10, 11, 14, 15]]
         self.__bars_to_display__ = []
+        self.__recalculate_render_options__()
 
+    def set_bars_to_display(self, bars_to_display):
+        self.__bars_to_display__ = bars_to_display
+        self.repaint()
+
+    def resizeEvent(self, ev):
+        self.__recalculate_render_options__()
+
+    def paintEvent(self, e):
+        qp = QPainter()
+        qp.begin(self)
+
+        for bar in self.__bars_to_display__:
+            if bar.color_is_red:
+                qp.setBrush(QColor(255, 0, 0))
+            else:
+                qp.setBrush(QColor(0, 255, 0))
+            bar_x, bar_y, bar_width, bar_height = self.__generate_bar_rect__(bar)
+            qp.drawRect(bar_x, bar_y, bar_width, bar_height)
+        qp.end()
+
+    def __recalculate_render_options__(self):
         # square stimulus area
         ww = self.size().width()
         wh = self.size().height()
@@ -54,20 +75,3 @@ class TrialPage(QWidget):
             x += int(ro.bar_horizontal_shift_size[0] * bar.shift[0])
             y += int(ro.bar_horizontal_shift_size[1] * bar.shift[1])
             return x, y, ro.bar_horizontal_size[0], ro.bar_horizontal_size[1]
-
-    def paintEvent(self, e):
-        qp = QPainter()
-        qp.begin(self)
-
-        for bar in self.__bars_to_display__:
-            if bar.color_is_red:
-                qp.setBrush(QColor(255, 0, 0))
-            else:
-                qp.setBrush(QColor(0, 255, 0))
-            bar_x, bar_y, bar_width, bar_height = self.__generate_bar_rect__(bar)
-            qp.drawRect(bar_x, bar_y, bar_width, bar_height)
-        qp.end()
-
-    def set_bars_to_display(self, bars_to_display):
-        self.__bars_to_display__ = bars_to_display
-        self.repaint()
