@@ -15,12 +15,12 @@ class PagesWidget(QWidget):
     FEEDBACK_INCORRECT_PAGE = 4
     EXPERIMENT_END_PAGE = 5
 
-    def __init__(self):
+    def __init__(self, keyboard_key_for_presented, keyboard_key_for_absent):
         super().__init__()
 
         trial_page = TrialPage()
         pages = QStackedWidget(self)
-        pages.addWidget(IntroPage())
+        pages.addWidget(IntroPage(keyboard_key_for_presented, keyboard_key_for_absent))
         pages.addWidget(OneStringPage("+"))  # fixation
         pages.addWidget(trial_page)
         pages.addWidget(OneStringPage(Configuration.FEEDBACK_CORRECT_TEXT, "green"))  # feedback_correct

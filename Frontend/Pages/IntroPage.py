@@ -16,7 +16,7 @@ class IntroPage(QWidget):
             trial_page.setMinimumHeight(500)
             self.setLayout(layout)
 
-    def __init__(self):
+    def __init__(self, keyboard_key_for_presented, keyboard_key_for_absent):
         super().__init__()
         layout = QVBoxLayout(self)
 
@@ -27,13 +27,13 @@ class IntroPage(QWidget):
         presented_trial_page.set_bars_to_display(Trial(12, True, True).bars_to_display)
         presented_example_page = self.ExamplePage(presented_trial_page,
                                                   Configuration.KEY_BINDINGS_PRESENTED_FORMAT_STRING %
-                                                  Configuration.KEYBOARD_KEY_FOR_PRESENTED)
+                                                  keyboard_key_for_presented)
 
         absent_trial_page = TrialPage()
         absent_trial_page.set_bars_to_display(Trial(16, False, False).bars_to_display)
         absent_example_page = self.ExamplePage(absent_trial_page,
                                                Configuration.KEY_BINDINGS_ABSENT_FORMAT_STRING %
-                                               Configuration.KEYBOARD_KEY_FOR_ABSENT)
+                                               keyboard_key_for_absent)
 
         examples = QWidget()
         examples_layout = QHBoxLayout(self)

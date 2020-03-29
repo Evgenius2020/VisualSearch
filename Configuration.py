@@ -17,8 +17,6 @@ class Configuration:
 
     KEYBOARD_KEY_1 = "N"
     KEYBOARD_KEY_2 = "M"
-    KEYBOARD_KEY_FOR_PRESENTED = None
-    KEYBOARD_KEY_FOR_ABSENT = None
 
     INTRO_TEXT = "In this experiment red and green bars will be presented on screen.\n" \
                  "Your TARGET is a red bar whose orientation is different from other red bars on the screen\n" \
