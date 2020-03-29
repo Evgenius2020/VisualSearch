@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from PyQt5 import QtCore
 from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import QApplication
@@ -19,16 +21,22 @@ class Application(PagesWidget):
         if self.__current_trial__ is None:
             self.change_page(self.EXPERIMENT_END_PAGE)
             return
+
         self.set_trial_bars_to_display(self.__current_trial__.bars_to_display)
         self.change_page(self.FIXATION_PAGE)
-        QTimer.singleShot(Configuration.FIXATION_DURATION, lambda: self.change_page(self.TRIAL_PAGE))
+        QTimer.singleShot(Configuration.FIXATION_DURATION, self.__on_fixation_end__)
+
+    def __on_fixation_end__(self):
+        self.change_page(self.TRIAL_PAGE)
+        self.__trial_start_timestamp__ = datetime.now()
 
     def __on_trial_response__(self, response_correct):
+        time_delta = int((datetime.now() - self.__trial_start_timestamp__).total_seconds() * 1000)
         if response_correct:
             self.change_page(self.FEEDBACK_CORRECT_PAGE)
         else:
             self.change_page(self.FEEDBACK_INCORRECT_PAGE)
-        self.__protocol_writer__.append_trial_result(self.__experiment__, response_correct, 500)
+        self.__protocol_writer__.append_trial_result(self.__experiment__, response_correct, time_delta)
         self.__experiment__.go_next_trial()
         QTimer.singleShot(Configuration.FEEDBACK_DURATION, self.__on_trial_start__)
 
@@ -41,9 +49,9 @@ class Application(PagesWidget):
             if answer in [self.__experiment__.keyboard_key_for_presented,
                           self.__experiment__.keyboard_key_for_absent]:
                 response_correct = self.__current_trial__.target_is_presented and \
-                                    answer == self.__experiment__.keyboard_key_for_presented or \
-                                    not self.__current_trial__.target_is_presented and \
-                                    answer == self.__experiment__.keyboard_key_for_absent
+                                   answer == self.__experiment__.keyboard_key_for_presented or \
+                                   not self.__current_trial__.target_is_presented and \
+                                   answer == self.__experiment__.keyboard_key_for_absent
                 self.__on_trial_response__(response_correct)
 
 
