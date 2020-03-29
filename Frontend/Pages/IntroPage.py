@@ -25,13 +25,13 @@ class IntroPage(QWidget):
         layout.addWidget(label)
 
         presented_trial_page = TrialPage()
-        presented_trial_page.set_bars_to_display(Trial(4, True, True).generate_bars_to_display())
+        presented_trial_page.set_bars_to_display(Trial(12, True, True).generate_bars_to_display())
         presented_example_page = self.ExamplePage(presented_trial_page,
                                                   Configuration.KEY_BINDINGS_PRESENTED_FORMAT_STRING %
                                                   Configuration.KEYBOARD_KEY_FOR_PRESENTED)
 
         absent_trial_page = TrialPage()
-        absent_trial_page.set_bars_to_display(Trial(12, False, False).generate_bars_to_display())
+        absent_trial_page.set_bars_to_display(Trial(16, False, False).generate_bars_to_display())
         absent_example_page = self.ExamplePage(absent_trial_page,
                                                Configuration.KEY_BINDINGS_ABSENT_FORMAT_STRING %
                                                Configuration.KEYBOARD_KEY_FOR_ABSENT)
