@@ -20,11 +20,13 @@ class Trial:
 
         if self.target_is_presented:
             bar_constructors = create_shuffled_array([target_bar, red_bar, green_bar],
-                                                     items_repeats=[1, self.targets_number // 2 - 1,
+                                                     items_repeats=[1,
+                                                                    self.targets_number // 2 - 1,
                                                                     self.targets_number // 2])
         else:
             bar_constructors = create_shuffled_array([red_bar, green_bar],
-                                                     items_repeats=[self.targets_number // 2, self.targets_number // 2])
+                                                     items_repeats=[self.targets_number // 2,
+                                                                    self.targets_number // 2])
 
         # 4 grid sectors, 4 possible bar boxes each
         bar_boxes_per_sector = self.targets_number // 4

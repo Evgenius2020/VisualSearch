@@ -12,22 +12,26 @@ class Condition:
 
 
 def conjunction_condition():
-    return Condition(c.CONJUNCTION_CONDITION_NAME, c.CONJUNCTION_CONDITION_BLOCKS_NUMBER,
+    return Condition(c.CONJUNCTION_CONDITION_NAME,
+                     c.CONJUNCTION_CONDITION_BLOCKS_NUMBER,
                      lambda length: [False for _ in range(length)])
 
 
 def switch_condition():
-    return Condition(c.SWITCH_CONDITION_NAME, c.SWITCH_CONDITION_BLOCKS_NUMBER,
+    return Condition(c.SWITCH_CONDITION_NAME,
+                     c.SWITCH_CONDITION_BLOCKS_NUMBER,
                      lambda length: [True for _ in range(length)])
 
 
 def streak_condition():
-    return Condition(c.STREAK_CONDITION_NAME, c.STREAK_CONDITION_BLOCKS_NUMBER,
+    return Condition(c.STREAK_CONDITION_NAME,
+                     c.STREAK_CONDITION_BLOCKS_NUMBER,
                      lambda length: streak_switch_generator(length))
 
 
 def random_condition():
-    return Condition(c.RANDOM_CONDITION_NAME, c.RANDOM_CONDITION_BLOCKS_NUMBER,
+    return Condition(c.RANDOM_CONDITION_NAME,
+                     c.RANDOM_CONDITION_BLOCKS_NUMBER,
                      lambda length: create_shuffled_array([True, False], length))
 
 

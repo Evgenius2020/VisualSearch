@@ -18,6 +18,8 @@ class Block:
             if switches[i]:
                 orientation_is_vertical = not orientation_is_vertical
             target_orientations.append(orientation_is_vertical)
-            trials.append(Trial(targets_number[i], target_is_presented[i], target_orientations[i]))
+            trials.append(Trial(targets_number[i],
+                                target_is_presented[i],
+                                target_orientations[i]))
 
         self.trials = trials
