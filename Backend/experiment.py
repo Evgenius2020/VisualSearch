@@ -1,13 +1,30 @@
 from random import random
+from typing import List, Optional
 
-from Backend.Block import Block
-import Backend.Conditions as cond
-from Backend.CreateShuffledArray import create_shuffled_array
+from Backend.block import Block
+import Backend.conditions as cond
+from Backend.trial import Trial
+from Backend.utils import create_shuffled_array
 from Configuration import Configuration
 
 
 class Experiment:
-    def __init__(self, subject_name):
+    subject_name: str
+    keyboard_key_for_presented: str
+    keyboard_key_for_absent: str
+    blocks: List[Block]
+    current_block_id: int
+    current_trial_id: int
+
+    def __init__(self, subject_name: str):
+        self.subject_name = subject_name
+        if random() > 0.5:
+            self.keyboard_key_for_presented = Configuration.KEYBOARD_KEY_1.upper()
+            self.keyboard_key_for_absent = Configuration.KEYBOARD_KEY_2.upper()
+        else:
+            self.keyboard_key_for_presented = Configuration.KEYBOARD_KEY_2.upper()
+            self.keyboard_key_for_absent = Configuration.KEYBOARD_KEY_1.upper()
+
         conditions = [cond.conjunction_condition(),
                       cond.switch_condition(),
                       cond.streak_condition(),
@@ -19,20 +36,12 @@ class Experiment:
         self.current_trial_id = 0
         self.__is_end__ = False
 
-        self.subject_name = subject_name
-        if random() > 0.5:
-            self.keyboard_key_for_presented = Configuration.KEYBOARD_KEY_1.upper()
-            self.keyboard_key_for_absent = Configuration.KEYBOARD_KEY_2.upper()
-        else:
-            self.keyboard_key_for_presented = Configuration.KEYBOARD_KEY_2.upper()
-            self.keyboard_key_for_absent = Configuration.KEYBOARD_KEY_1.upper()
-
-    def get_current_trial(self):
+    def get_current_trial(self) -> Optional[Trial]:
         if self.__is_end__:
             return None
         return self.blocks[self.current_block_id].trials[self.current_trial_id]
 
-    def go_next_trial(self):
+    def go_next_trial(self) -> None:
         if self.__is_end__:
             return
 

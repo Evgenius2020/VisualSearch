@@ -4,7 +4,7 @@ from PyQt5 import QtCore
 from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import QApplication
 
-from Backend.Experiment import Experiment
+from Backend.experiment import Experiment
 from Configuration import Configuration
 from Frontend.ExperimentSettings import ExperimentSettings
 from Frontend.PagesWidget import PagesWidget

@@ -1,8 +1,19 @@
 from math import ceil
 import random
+from typing import List
 
 
-def create_shuffled_array(items, expected_length=None, items_repeats=None):
+def create_shuffled_array(
+        items: List,
+        expected_length: int = None,
+        items_repeats: List[int] = None) -> List:
+    """Creates list of shuffled 'items' elements
+
+    :param items: source list
+    :param expected_length: expected length of result list; if it greater that len(items), repeats items
+    :param items_repeats: list of repeats number for each element
+    :return:
+    """
     if items_repeats is None:
         items_repeats = [1] * len(items)
     if expected_length is None:

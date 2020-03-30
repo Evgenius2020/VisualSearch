@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout
 
-from Backend.Trial import Trial
+from Backend.trial import Trial
 from Configuration import Configuration
 from Frontend.Pages.TrialPage import TrialPage
 

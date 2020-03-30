@@ -1,41 +1,43 @@
+from dataclasses import dataclass
 from random import random
+from typing import List, Callable
 
-from Backend.CreateShuffledArray import create_shuffled_array
+from Backend.utils import create_shuffled_array
 from Configuration import Configuration as c
 
 
+@dataclass
 class Condition:
-    def __init__(self, name, blocks_number, switch_generator_function):
-        self.name = name
-        self.blocks_number = blocks_number
-        self.switch_generator_function = switch_generator_function
+    name: str
+    blocks_number: int
+    switch_generator_function: Callable[[int], List[bool]]
 
 
-def conjunction_condition():
+def conjunction_condition() -> Condition:
     return Condition(c.CONJUNCTION_CONDITION_NAME,
                      c.CONJUNCTION_CONDITION_BLOCKS_NUMBER,
                      lambda length: [False for _ in range(length)])
 
 
-def switch_condition():
+def switch_condition() -> Condition:
     return Condition(c.SWITCH_CONDITION_NAME,
                      c.SWITCH_CONDITION_BLOCKS_NUMBER,
                      lambda length: [True for _ in range(length)])
 
 
-def streak_condition():
+def streak_condition() -> Condition:
     return Condition(c.STREAK_CONDITION_NAME,
                      c.STREAK_CONDITION_BLOCKS_NUMBER,
                      lambda length: streak_switch_generator(length))
 
 
-def random_condition():
+def random_condition() -> Condition:
     return Condition(c.RANDOM_CONDITION_NAME,
                      c.RANDOM_CONDITION_BLOCKS_NUMBER,
                      lambda length: create_shuffled_array([True, False], length))
 
 
-def streak_switch_probability(streak_length):
+def streak_switch_probability(streak_length: int) -> float:
     if streak_length <= 0:
         return 0
     if streak_length >= 8:
@@ -45,7 +47,7 @@ def streak_switch_probability(streak_length):
     return streak_length * (0.1 - 0.01 * streak_length)
 
 
-def streak_switch_generator(length):
+def streak_switch_generator(length: int) -> List[bool]:
     result = []
     streak_length = 1
     for _ in range(length):

@@ -1,9 +1,9 @@
 import unittest
 
-from Backend.Block import Block
-from Backend.Conditions import streak_switch_probability
-import Backend.Conditions as cond
-from Backend.CreateShuffledArray import create_shuffled_array
+from Backend.block import Block
+from Backend.conditions import streak_switch_probability
+import Backend.conditions as cond
+from Backend.utils import create_shuffled_array
 from Configuration import Configuration as c
 
 

@@ -1,13 +1,17 @@
 from random import random
+from typing import List
 
-from Backend.CreateShuffledArray import create_shuffled_array
-from Backend.Trial import Trial
+from Backend.conditions import Condition
+from Backend.utils import create_shuffled_array
+from Backend.trial import Trial
 from Configuration import Configuration as c
 
 
 class Block:
-    def __init__(self, condition):
-        self.condition = condition
+    condition: Condition
+    trials: List[Trial]
+
+    def __init__(self, condition: Condition):
         orientation_is_vertical = random() > 0.5
         switches = condition.switch_generator_function(c.TRIALS_PER_BLOCK)
         targets_number = create_shuffled_array([4, 8, 12, 16], c.TRIALS_PER_BLOCK)
@@ -22,4 +26,5 @@ class Block:
                                 target_is_presented[i],
                                 target_orientations[i]))
 
+        self.condition = condition
         self.trials = trials
