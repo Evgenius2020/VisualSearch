@@ -63,10 +63,10 @@ def run_application():
     if my_dialog.protocol_file is None:
         return
     if my_dialog.fast_mode_enabled:
-        Configuration.CONJUNCTION_CONDITION_BLOCKS_NUMBER = Configuration.FAST_MODE_BLOCK_PER_CONDITION
-        Configuration.SWITCH_CONDITION_BLOCKS_NUMBER = Configuration.FAST_MODE_BLOCK_PER_CONDITION
-        Configuration.STREAK_CONDITION_BLOCKS_NUMBER = Configuration.FAST_MODE_BLOCK_PER_CONDITION
-        Configuration.RANDOM_CONDITION_BLOCKS_NUMBER = Configuration.FAST_MODE_BLOCK_PER_CONDITION
+        Configuration.CONJUNCTION_CONDITION_BLOCKS_NUMBER = Configuration.FAST_MODE_BLOCKS_PER_CONDITION
+        Configuration.SWITCH_CONDITION_BLOCKS_NUMBER = Configuration.FAST_MODE_BLOCKS_PER_CONDITION
+        Configuration.STREAK_CONDITION_BLOCKS_NUMBER = Configuration.FAST_MODE_BLOCKS_PER_CONDITION
+        Configuration.RANDOM_CONDITION_BLOCKS_NUMBER = Configuration.FAST_MODE_BLOCKS_PER_CONDITION
         Configuration.TRIALS_PER_BLOCK = Configuration.FAST_MODE_TRIALS_PER_BLOCK
     application = Application(Experiment(my_dialog.subject_name), ProtocolWriter(my_dialog.protocol_file))
     qa.exec_()

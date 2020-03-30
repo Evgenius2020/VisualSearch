@@ -25,7 +25,7 @@ class ExperimentSettings(QDialog):
         layout.addWidget(select_file_button)
         layout.addStretch(10)
         fast_mode_check_box = QCheckBox("Fast mode (%d blocks, %d trials each)" %
-                                        (Configuration.FAST_MODE_BLOCK_PER_CONDITION * 4,
+                                        (Configuration.FAST_MODE_BLOCKS_PER_CONDITION * 4,
                                          Configuration.FAST_MODE_TRIALS_PER_BLOCK))
         layout.addWidget(fast_mode_check_box)
         start_button = QPushButton("Start experiment")

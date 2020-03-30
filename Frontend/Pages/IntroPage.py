@@ -10,9 +10,8 @@ class IntroPage(QWidget):
         def __init__(self, trial_page, text):
             super().__init__()
             layout = QVBoxLayout(self)
-            label = QLabel(text)
             layout.addWidget(trial_page)
-            layout.addWidget(label)
+            layout.addWidget(QLabel(text))
             trial_page.setMinimumHeight(500)
             self.setLayout(layout)
 
