@@ -18,6 +18,10 @@ class Configuration:
     KEYBOARD_KEY_1 = "N"
     KEYBOARD_KEY_2 = "M"
 
+    DEFAULT_SUBJECT_NAME = "subject"
+    PROTOCOL_FILE_EXTENSION = ".csv"
+    DEFAULT_PROTOCOL_FILENAME = DEFAULT_SUBJECT_NAME
+
     INTRO_TEXT = "In this experiment red and green bars will be presented on screen.\n" \
                  "Your TARGET is a red bar whose orientation is different from other red bars on the screen\n" \
                  "TARGET may be absent on screen.\n" \

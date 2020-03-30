@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QApplication
 
 from Backend.Experiment import Experiment
 from Configuration import Configuration
+from Frontend.ExperimentSettings import ExperimentSettings
 from Frontend.PagesWidget import PagesWidget
 from Frontend.ProtocolWriter import ProtocolWriter
 
@@ -57,5 +58,9 @@ class Application(PagesWidget):
 
 def run_application():
     qa = QApplication([])
-    application = Application(Experiment("subi"), ProtocolWriter(open("proto.csv", "w")))
+    my_dialog = ExperimentSettings()
+    my_dialog.exec_()
+    if my_dialog.protocol_file is None:
+        return
+    application = Application(Experiment(my_dialog.subject_name), ProtocolWriter(my_dialog.protocol_file))
     qa.exec_()
