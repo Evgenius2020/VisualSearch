@@ -27,14 +27,14 @@ class Tests(unittest.TestCase):
         self.check_entries(create_shuffled_array([1, 2, 3]), {1: 1, 2: 1, 3: 1})
 
     def test_conditions_switch_generators(self):
-        switches = cond.CONJUNCTION_CONDITION.switch_generator_function(10000)
+        switches = cond.conjunction_condition().switch_generator_function(10000)
         self.check_entries(switches, {False: 10000})
 
-        switches = cond.SWITCH_CONDITION.switch_generator_function(10000)
+        switches = cond.switch_condition().switch_generator_function(10000)
         self.check_entries(switches, {True: 10000})
 
         switch_cond_length = 10000
-        switches = cond.STREAK_CONDITION.switch_generator_function(switch_cond_length)
+        switches = cond.streak_condition().switch_generator_function(switch_cond_length)
         streak_size = 1
         streaks = {}
         for i in range(switch_cond_length):
@@ -46,25 +46,24 @@ class Tests(unittest.TestCase):
             streak_size += 1
         self.assertLessEqual(len(streaks.keys()), 8)
 
-        switches = cond.RANDOM_CONDITION.switch_generator_function(10000)
+        switches = cond.random_condition().switch_generator_function(10000)
         self.check_entries(switches, {True: 5000, False: 5000})
 
     def test_block_generation(self):
         c.TRIALS_PER_BLOCK = 100  # must be divided by 4
         tpb = c.TRIALS_PER_BLOCK
 
-        conj_block = Block(cond.CONJUNCTION_CONDITION)
-        self.assertEqual(conj_block.condition, cond.CONJUNCTION_CONDITION)
+        conj_block = Block(cond.conjunction_condition())
         self.assertEqual(len(conj_block.trials), c.TRIALS_PER_BLOCK)
-        self.check_entries([trial.target_presence for trial in conj_block.trials], {True: tpb / 2, False: tpb / 2})
+        self.check_entries([trial.target_is_presented for trial in conj_block.trials], {True: tpb / 2, False: tpb / 2})
         self.check_entries([trial.targets_number for trial in conj_block.trials],
                            {4: tpb / 4, 8: tpb / 4, 12: tpb / 4, 16: tpb / 4})
-        start_orientation_is_vertical = conj_block.trials[0].orientation_is_vertical
-        orientations = [trial.orientation_is_vertical for trial in conj_block.trials]
+        start_orientation_is_vertical = conj_block.trials[0].target_orientation_is_vertical
+        orientations = [trial.target_orientation_is_vertical for trial in conj_block.trials]
         self.assertListEqual(orientations, [start_orientation_is_vertical] * len(conj_block.trials))
 
-        switch_block = Block(cond.SWITCH_CONDITION)
-        orientations = [trial.orientation_is_vertical for trial in switch_block.trials]
+        switch_block = Block(cond.switch_condition())
+        orientations = [trial.target_orientation_is_vertical for trial in switch_block.trials]
         self.check_entries(orientations, {True: tpb / 2, False: tpb / 2})
 
         if __name__ == '__main__':

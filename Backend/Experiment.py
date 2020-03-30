@@ -8,7 +8,8 @@ from Configuration import Configuration
 
 class Experiment:
     def __init__(self, subject_name):
-        conditions = [cond.CONJUNCTION_CONDITION, cond.SWITCH_CONDITION, cond.STREAK_CONDITION, cond.RANDOM_CONDITION]
+        conditions = [cond.conjunction_condition(), cond.switch_condition(), cond.streak_condition(),
+                      cond.random_condition()]
         conditions_repeats = [condition.blocks_number for condition in conditions]
         conditions = create_shuffled_array(conditions, items_repeats=conditions_repeats)
         self.blocks = [Block(condition) for condition in conditions]

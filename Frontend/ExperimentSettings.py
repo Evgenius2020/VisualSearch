@@ -1,5 +1,5 @@
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLineEdit, QLabel, QPushButton, QFileDialog
+from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLineEdit, QLabel, QPushButton, QFileDialog, QCheckBox
 
 from Configuration import Configuration
 
@@ -13,6 +13,7 @@ class ExperimentSettings(QDialog):
         self.subject_name = Configuration.DEFAULT_SUBJECT_NAME
         self.protocol_filename = ""
         self.protocol_file = None
+        self.fast_mode_enabled = False
 
         layout = QVBoxLayout()
         layout.addWidget(QLabel("Subject name:"))
@@ -23,6 +24,10 @@ class ExperimentSettings(QDialog):
         select_file_button = QPushButton("Change filename")
         layout.addWidget(select_file_button)
         layout.addStretch(10)
+        fast_mode_check_box = QCheckBox("Fast mode (%d blocks, %d trials each)" %
+                                        (Configuration.FAST_MODE_BLOCK_PER_CONDITION * 4,
+                                         Configuration.FAST_MODE_TRIALS_PER_BLOCK))
+        layout.addWidget(fast_mode_check_box)
         start_button = QPushButton("Start experiment")
         layout.addWidget(start_button)
         self.setLayout(layout)
@@ -41,6 +46,7 @@ class ExperimentSettings(QDialog):
 
         def start_button_clicked():
             self.protocol_file = open(self.protocol_filename, "w")
+            self.fast_mode_enabled = fast_mode_check_box.isChecked()
             self.close()
 
         subject_name_edit.textChanged[str].connect(subject_name_edit_text_changed)
@@ -48,4 +54,3 @@ class ExperimentSettings(QDialog):
         subject_name_edit_text_changed(subject_name_edit.text())
         select_file_button.clicked.connect(select_file_button_clicked)
         start_button.clicked.connect(start_button_clicked)
-
