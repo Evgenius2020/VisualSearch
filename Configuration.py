@@ -27,10 +27,11 @@ class Configuration:
     INTRO_TEXT = "In this experiment red and green bars will be presented on screen.\n" \
                  "Your TARGET is a red bar whose orientation is different from other red bars on the screen\n" \
                  "TARGET may be absent on screen.\n" \
-                 "You should determine whether TARGET is presented on screen."
-    INTRO_START_EXPERIMENT_TEXT = "Press SPACE to start experiment."
+                 "You should determine whether TARGET is presented on screen.\n" \
+                 "Time for response is unlimited, but try to response as soon as possible."
+    INTRO_TEXT_PRESS_SPACE_TEXT = "Press SPACE to start experiment."
     KEY_BINDINGS_PRESENTED_FORMAT_STRING = "Press '%s' if TARGET is presented on screen."
     KEY_BINDINGS_ABSENT_FORMAT_STRING = "Press '%s' if TARGET is absent on screen."
     FEEDBACK_CORRECT_TEXT = "Right!"
     FEEDBACK_INCORRECT_TEXT = "Wrong!"
-    EXPERIMENT_END_TEXT = "Experiment complete. Thanks for participating!"
+    EXPERIMENT_END_TEXT = "Experiment complete. Thanks for participating!\nPress space to close program."

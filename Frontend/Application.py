@@ -54,6 +54,9 @@ class Application(PagesWidget):
                                    not self.__current_trial__.target_is_presented and \
                                    answer == self.__experiment__.keyboard_key_for_absent
                 self.__on_trial_response__(response_correct)
+        elif self.page == self.EXPERIMENT_END_PAGE:
+            if event.key() == QtCore.Qt.Key_Space:
+                self.close()
 
 
 def run_application():

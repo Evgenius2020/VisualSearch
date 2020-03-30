@@ -41,7 +41,7 @@ class IntroPage(QWidget):
         examples.setLayout(examples_layout)
         layout.addWidget(examples)
 
-        label = QLabel(Configuration.INTRO_START_EXPERIMENT_TEXT)
+        label = QLabel(Configuration.INTRO_TEXT_PRESS_SPACE_TEXT)
         layout.addWidget(label)
 
         self.setLayout(layout)
