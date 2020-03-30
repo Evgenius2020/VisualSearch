@@ -1,10 +1,10 @@
 import unittest
 
-from Backend.block import Block
-from Backend.conditions import streak_switch_probability
-import Backend.conditions as cond
-from Backend.utils import create_shuffled_array
-from Configuration import Configuration as c
+from backend.block import Block
+from backend.conditions import streak_switch_probability
+import backend.conditions as cond
+from backend.utils import create_shuffled_array
+from configuration import Configuration as c
 
 
 class Tests(unittest.TestCase):

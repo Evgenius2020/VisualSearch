@@ -1,11 +1,11 @@
 from random import random
 from typing import List, Optional
 
-from Backend.block import Block
-import Backend.conditions as cond
-from Backend.trial import Trial
-from Backend.utils import create_shuffled_array
-from Configuration import Configuration
+from backend.block import Block
+import backend.conditions as cond
+from backend.trial import Trial
+from backend.utils import create_shuffled_array
+from configuration import Configuration
 
 
 class Experiment:

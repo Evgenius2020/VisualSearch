@@ -1,10 +1,10 @@
 from random import random
 from typing import List
 
-from Backend.conditions import Condition
-from Backend.utils import create_shuffled_array
-from Backend.trial import Trial
-from Configuration import Configuration as c
+from backend.conditions import Condition
+from backend.utils import create_shuffled_array
+from backend.trial import Trial
+from configuration import Configuration as c
 
 
 class Block:

@@ -4,11 +4,11 @@ from PyQt5 import QtCore
 from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import QApplication
 
-from Backend.experiment import Experiment
-from Configuration import Configuration
-from Frontend.ExperimentSettings import ExperimentSettings
-from Frontend.PagesWidget import PagesWidget
-from Frontend.ProtocolWriter import ProtocolWriter
+from backend.experiment import Experiment
+from configuration import Configuration
+from frontend.experiment_settings import ExperimentSettings
+from frontend.pages_widget import PagesWidget
+from frontend.protocol_writer import ProtocolWriter
 
 
 class Application(PagesWidget):

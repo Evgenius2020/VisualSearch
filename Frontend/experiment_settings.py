@@ -1,7 +1,7 @@
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLineEdit, QLabel, QPushButton, QFileDialog, QCheckBox
 
-from Configuration import Configuration
+from configuration import Configuration
 
 
 class ExperimentSettings(QDialog):

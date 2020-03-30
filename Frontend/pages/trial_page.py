@@ -1,16 +1,20 @@
+from typing import List, Tuple
+
 from PyQt5.QtGui import QPainter, QColor
 from PyQt5.QtWidgets import *
+
+from backend.trial import Bar
 
 
 class TrialPage(QWidget):
     class RenderOptions:
-        grid_start_coord = None
-        bar_box_size = None
-        bar_box_padding = None
-        bar_vertical_size = None
-        bar_vertical_shift_size = None
-        bar_horizontal_size = None
-        bar_horizontal_shift_size = None
+        grid_start_coord: Tuple[int, int]
+        bar_box_size: Tuple[int, int]
+        bar_box_padding: Tuple[int, int]
+        bar_vertical_size: Tuple[int, int]
+        bar_vertical_shift_size: Tuple[int, int]
+        bar_horizontal_size: Tuple[int, int]
+        bar_horizontal_shift_size: Tuple[int, int]
 
     def __init__(self):
         super().__init__()
@@ -22,7 +26,7 @@ class TrialPage(QWidget):
         self.__bars_to_display__ = []
         self.__recalculate_render_options__()
 
-    def set_bars_to_display(self, bars_to_display):
+    def set_bars_to_display(self, bars_to_display: List[Bar]):
         self.__bars_to_display__ = bars_to_display
         self.repaint()
 
@@ -62,7 +66,7 @@ class TrialPage(QWidget):
             ro.bar_box_size[1] - ro.bar_horizontal_size[1] - 2 * ro.bar_box_padding[1])
         self.__render_options__ = ro
 
-    def __generate_bar_rect__(self, bar):
+    def __generate_bar_rect__(self, bar: Bar):
         ro = self.__render_options__
         grid_id = self.__grid_bars_ids__[bar.grid_sector_id][bar.bar_box_id]
         x = ro.grid_start_coord[0] + (grid_id % 4) * ro.bar_box_size[0] + ro.bar_box_padding[0]

@@ -1,10 +1,10 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QStackedWidget, QFormLayout
 
-from Configuration import Configuration
-from Frontend.Pages.IntroPage import IntroPage
-from Frontend.Pages.OneStringPage import OneStringPage
-from Frontend.Pages.TrialPage import TrialPage
+from configuration import Configuration
+from frontend.pages.intro_page import IntroPage
+from frontend.pages.one_string_page import OneStringPage
+from frontend.pages.trial_page import TrialPage
 
 
 class PagesWidget(QWidget):

@@ -1,13 +1,13 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout
 
-from Backend.trial import Trial
-from Configuration import Configuration
-from Frontend.Pages.TrialPage import TrialPage
+from backend.trial import Trial
+from configuration import Configuration
+from frontend.pages.trial_page import TrialPage
 
 
 class IntroPage(QWidget):
     class ExamplePage(QWidget):
-        def __init__(self, trial_page, text):
+        def __init__(self, trial_page: TrialPage, text: str):
             super().__init__()
             layout = QVBoxLayout(self)
             layout.addWidget(trial_page)
@@ -15,7 +15,9 @@ class IntroPage(QWidget):
             trial_page.setMinimumHeight(500)
             self.setLayout(layout)
 
-    def __init__(self, keyboard_key_for_presented, keyboard_key_for_absent):
+    def __init__(self,
+                 keyboard_key_for_presented: str,
+                 keyboard_key_for_absent: str):
         super().__init__()
         layout = QVBoxLayout(self)
 

@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from random import random
 from typing import List, Tuple
 
-from Backend.utils import create_shuffled_array
+from backend.utils import create_shuffled_array
 
 
 @dataclass
