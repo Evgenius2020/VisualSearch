@@ -1,7 +1,7 @@
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLineEdit, QLabel, QPushButton, QFileDialog, QCheckBox
 
-from configuration import Configuration
+import configuration
 
 
 class ExperimentSettings(QDialog):
@@ -10,7 +10,7 @@ class ExperimentSettings(QDialog):
         self.setWindowTitle("VisualSearch")
         self.setWindowFlags(self.windowFlags() & ~QtCore.Qt.WindowContextHelpButtonHint)
         self.setFixedSize(300, 180)
-        self.subject_name = Configuration.DEFAULT_SUBJECT_NAME
+        self.subject_name = configuration.DEFAULT_SUBJECT_NAME
         self.protocol_filename = ""
         self.protocol_file = None
         self.fast_mode_enabled = False
@@ -25,15 +25,15 @@ class ExperimentSettings(QDialog):
         layout.addWidget(select_file_button)
         layout.addStretch(10)
         fast_mode_check_box = QCheckBox("Fast mode (%d blocks, %d trials each)" %
-                                        (Configuration.FAST_MODE_BLOCKS_PER_CONDITION * 4,
-                                         Configuration.FAST_MODE_TRIALS_PER_BLOCK))
+                                        (configuration.FAST_MODE_BLOCKS_PER_CONDITION * 4,
+                                         configuration.FAST_MODE_TRIALS_PER_BLOCK))
         layout.addWidget(fast_mode_check_box)
         start_button = QPushButton("Start experiment")
         layout.addWidget(start_button)
         self.setLayout(layout)
 
         def subject_name_edit_text_changed(text: str):
-            pf = text + Configuration.PROTOCOL_FILE_EXTENSION
+            pf = text + configuration.PROTOCOL_FILE_EXTENSION
             self.protocol_filename = pf
             protocol_filename_label.setText("Protocol file: '%s'" % pf)
 
@@ -50,7 +50,7 @@ class ExperimentSettings(QDialog):
             self.close()
 
         subject_name_edit.textChanged[str].connect(subject_name_edit_text_changed)
-        subject_name_edit.setText(Configuration.DEFAULT_SUBJECT_NAME)
+        subject_name_edit.setText(configuration.DEFAULT_SUBJECT_NAME)
         subject_name_edit_text_changed(subject_name_edit.text())
         select_file_button.clicked.connect(select_file_button_clicked)
         start_button.clicked.connect(start_button_clicked)

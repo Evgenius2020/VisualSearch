@@ -5,7 +5,7 @@ from backend.block import Block
 import backend.conditions as cond
 from backend.trial import Trial
 from backend.utils import create_shuffled_array
-from configuration import Configuration
+import configuration
 
 
 class Experiment:
@@ -19,11 +19,11 @@ class Experiment:
     def __init__(self, subject_name: str):
         self.subject_name = subject_name
         if random() > 0.5:
-            self.keyboard_key_for_presented = Configuration.KEYBOARD_KEY_1.upper()
-            self.keyboard_key_for_absent = Configuration.KEYBOARD_KEY_2.upper()
+            self.keyboard_key_for_presented = configuration.KEYBOARD_KEY_1.upper()
+            self.keyboard_key_for_absent = configuration.KEYBOARD_KEY_2.upper()
         else:
-            self.keyboard_key_for_presented = Configuration.KEYBOARD_KEY_2.upper()
-            self.keyboard_key_for_absent = Configuration.KEYBOARD_KEY_1.upper()
+            self.keyboard_key_for_presented = configuration.KEYBOARD_KEY_2.upper()
+            self.keyboard_key_for_absent = configuration.KEYBOARD_KEY_1.upper()
 
         conditions = [cond.conjunction_condition(),
                       cond.switch_condition(),
@@ -46,7 +46,7 @@ class Experiment:
             return
 
         self.current_trial_id += 1
-        if self.current_trial_id == Configuration.TRIALS_PER_BLOCK:
+        if self.current_trial_id == configuration.TRIALS_PER_BLOCK:
             self.current_trial_id = 0
             self.current_block_id += 1
             if self.current_block_id == len(self.blocks):

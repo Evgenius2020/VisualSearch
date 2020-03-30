@@ -4,7 +4,7 @@ from backend.block import Block
 from backend.conditions import streak_switch_probability
 import backend.conditions as cond
 from backend.utils import create_shuffled_array
-from configuration import Configuration as c
+import configuration
 
 
 class Tests(unittest.TestCase):
@@ -50,11 +50,11 @@ class Tests(unittest.TestCase):
         self.check_entries(switches, {True: 5000, False: 5000})
 
     def test_block_generation(self):
-        c.TRIALS_PER_BLOCK = 100  # must be divided by 4
-        tpb = c.TRIALS_PER_BLOCK
+        configuration.TRIALS_PER_BLOCK = 100  # must be divided by 4
+        tpb = configuration.TRIALS_PER_BLOCK
 
         conj_block = Block(cond.conjunction_condition())
-        self.assertEqual(len(conj_block.trials), c.TRIALS_PER_BLOCK)
+        self.assertEqual(len(conj_block.trials), configuration.TRIALS_PER_BLOCK)
         self.check_entries([trial.target_is_presented for trial in conj_block.trials], {True: tpb / 2, False: tpb / 2})
         self.check_entries([trial.targets_number for trial in conj_block.trials],
                            {4: tpb / 4, 8: tpb / 4, 12: tpb / 4, 16: tpb / 4})

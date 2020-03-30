@@ -3,7 +3,7 @@ from random import random
 from typing import List, Callable
 
 from backend.utils import create_shuffled_array
-from configuration import Configuration as c
+import configuration
 
 
 @dataclass
@@ -14,26 +14,26 @@ class Condition:
 
 
 def conjunction_condition() -> Condition:
-    return Condition(c.CONJUNCTION_CONDITION_NAME,
-                     c.CONJUNCTION_CONDITION_BLOCKS_NUMBER,
+    return Condition(configuration.CONJUNCTION_CONDITION_NAME,
+                     configuration.CONJUNCTION_CONDITION_BLOCKS_NUMBER,
                      lambda length: [False for _ in range(length)])
 
 
 def switch_condition() -> Condition:
-    return Condition(c.SWITCH_CONDITION_NAME,
-                     c.SWITCH_CONDITION_BLOCKS_NUMBER,
+    return Condition(configuration.SWITCH_CONDITION_NAME,
+                     configuration.SWITCH_CONDITION_BLOCKS_NUMBER,
                      lambda length: [True for _ in range(length)])
 
 
 def streak_condition() -> Condition:
-    return Condition(c.STREAK_CONDITION_NAME,
-                     c.STREAK_CONDITION_BLOCKS_NUMBER,
+    return Condition(configuration.STREAK_CONDITION_NAME,
+                     configuration.STREAK_CONDITION_BLOCKS_NUMBER,
                      lambda length: streak_switch_generator(length))
 
 
 def random_condition() -> Condition:
-    return Condition(c.RANDOM_CONDITION_NAME,
-                     c.RANDOM_CONDITION_BLOCKS_NUMBER,
+    return Condition(configuration.RANDOM_CONDITION_NAME,
+                     configuration.RANDOM_CONDITION_BLOCKS_NUMBER,
                      lambda length: create_shuffled_array([True, False], length))
 
 

@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout
 
 from backend.trial import Trial
-from configuration import Configuration
+import configuration
 from frontend.pages.trial_page import TrialPage
 
 
@@ -21,19 +21,19 @@ class IntroPage(QWidget):
         super().__init__()
         layout = QVBoxLayout(self)
 
-        label = QLabel(Configuration.INTRO_TEXT)
+        label = QLabel(configuration.INTRO_TEXT)
         layout.addWidget(label)
 
         presented_trial_page = TrialPage()
         presented_trial_page.set_bars_to_display(Trial(12, True, True).bars_to_display)
         presented_example_page = self.ExamplePage(presented_trial_page,
-                                                  Configuration.KEY_BINDINGS_PRESENTED_FORMAT_STRING %
+                                                  configuration.KEY_BINDINGS_PRESENTED_FORMAT_STRING %
                                                   keyboard_key_for_presented)
 
         absent_trial_page = TrialPage()
         absent_trial_page.set_bars_to_display(Trial(16, False, False).bars_to_display)
         absent_example_page = self.ExamplePage(absent_trial_page,
-                                               Configuration.KEY_BINDINGS_ABSENT_FORMAT_STRING %
+                                               configuration.KEY_BINDINGS_ABSENT_FORMAT_STRING %
                                                keyboard_key_for_absent)
 
         examples = QWidget()
@@ -43,7 +43,7 @@ class IntroPage(QWidget):
         examples.setLayout(examples_layout)
         layout.addWidget(examples)
 
-        label = QLabel(Configuration.INTRO_TEXT_PRESS_SPACE_TEXT)
+        label = QLabel(configuration.INTRO_TEXT_PRESS_SPACE_TEXT)
         layout.addWidget(label)
 
         self.setLayout(layout)

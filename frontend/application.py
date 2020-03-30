@@ -5,7 +5,7 @@ from PyQt5.QtCore import QTimer
 from PyQt5.QtWidgets import QApplication
 
 from backend.experiment import Experiment
-from configuration import Configuration
+import configuration
 from frontend.experiment_settings import ExperimentSettings
 from frontend.pages_widget import PagesWidget
 from frontend.protocol_writer import ProtocolWriter
@@ -25,7 +25,7 @@ class Application(PagesWidget):
 
         self.set_trial_bars_to_display(self.__current_trial__.bars_to_display)
         self.change_page(self.FIXATION_PAGE)
-        QTimer.singleShot(Configuration.FIXATION_DURATION, self.__on_fixation_end__)
+        QTimer.singleShot(configuration.FIXATION_DURATION, self.__on_fixation_end__)
 
     def __on_fixation_end__(self):
         self.change_page(self.TRIAL_PAGE)
@@ -39,7 +39,7 @@ class Application(PagesWidget):
             self.change_page(self.FEEDBACK_INCORRECT_PAGE)
         self.__protocol_writer__.append_trial_result(self.__experiment__, response_correct, time_delta)
         self.__experiment__.go_next_trial()
-        QTimer.singleShot(Configuration.FEEDBACK_DURATION, self.__on_trial_start__)
+        QTimer.singleShot(configuration.FEEDBACK_DURATION, self.__on_trial_start__)
 
     def keyPressEvent(self, event):
         if self.page == self.INTRO_PAGE:
@@ -66,10 +66,10 @@ def run_application():
     if my_dialog.protocol_file is None:
         return
     if my_dialog.fast_mode_enabled:
-        Configuration.CONJUNCTION_CONDITION_BLOCKS_NUMBER = Configuration.FAST_MODE_BLOCKS_PER_CONDITION
-        Configuration.SWITCH_CONDITION_BLOCKS_NUMBER = Configuration.FAST_MODE_BLOCKS_PER_CONDITION
-        Configuration.STREAK_CONDITION_BLOCKS_NUMBER = Configuration.FAST_MODE_BLOCKS_PER_CONDITION
-        Configuration.RANDOM_CONDITION_BLOCKS_NUMBER = Configuration.FAST_MODE_BLOCKS_PER_CONDITION
-        Configuration.TRIALS_PER_BLOCK = Configuration.FAST_MODE_TRIALS_PER_BLOCK
+        configuration.CONJUNCTION_CONDITION_BLOCKS_NUMBER = configuration.FAST_MODE_BLOCKS_PER_CONDITION
+        configuration.SWITCH_CONDITION_BLOCKS_NUMBER = configuration.FAST_MODE_BLOCKS_PER_CONDITION
+        configuration.STREAK_CONDITION_BLOCKS_NUMBER = configuration.FAST_MODE_BLOCKS_PER_CONDITION
+        configuration.RANDOM_CONDITION_BLOCKS_NUMBER = configuration.FAST_MODE_BLOCKS_PER_CONDITION
+        configuration.TRIALS_PER_BLOCK = configuration.FAST_MODE_TRIALS_PER_BLOCK
     application = Application(Experiment(my_dialog.subject_name), ProtocolWriter(my_dialog.protocol_file))
     qa.exec_()

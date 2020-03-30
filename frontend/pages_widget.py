@@ -4,7 +4,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QStackedWidget, QFormLayout
 
 from backend.trial import Bar
-from configuration import Configuration
+import configuration
 from frontend.pages.intro_page import IntroPage
 from frontend.pages.one_string_page import OneStringPage
 from frontend.pages.trial_page import TrialPage
@@ -28,9 +28,9 @@ class PagesWidget(QWidget):
         pages.addWidget(IntroPage(keyboard_key_for_presented, keyboard_key_for_absent))
         pages.addWidget(OneStringPage("+"))  # fixation
         pages.addWidget(trial_page)
-        pages.addWidget(OneStringPage(Configuration.FEEDBACK_CORRECT_TEXT, "green"))  # feedback_correct
-        pages.addWidget(OneStringPage(Configuration.FEEDBACK_INCORRECT_TEXT, "red"))  # feedback_incorrect
-        pages.addWidget(OneStringPage(Configuration.EXPERIMENT_END_TEXT))  # experiment_end
+        pages.addWidget(OneStringPage(configuration.FEEDBACK_CORRECT_TEXT, "green"))  # feedback_correct
+        pages.addWidget(OneStringPage(configuration.FEEDBACK_INCORRECT_TEXT, "red"))  # feedback_incorrect
+        pages.addWidget(OneStringPage(configuration.EXPERIMENT_END_TEXT))  # experiment_end
 
         self.__trial_page__ = trial_page
         self.__pages__ = pages

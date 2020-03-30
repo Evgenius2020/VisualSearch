@@ -1,7 +1,9 @@
 # VisualSearch
 Based on paper 'The role of priming in conjunctive visual search.' (DOI: 10.1016/s0010-0277(02)00074-4).
 
-VisualSearch is experimental program, when subject perform task of searching object with specific color and orientation. 
+VisualSearch is experimental program, when subject perform task of searching object with specific color and orientation.
+
+Written for participation in the MARVIN contest by "Think Cognitive Think Science".
 
 ## Features
 * Python3 implementation
@@ -9,10 +11,11 @@ VisualSearch is experimental program, when subject perform task of searching obj
 * Protocol writing
 * Added fixation before trials 
 * Keyboard bindings randomization
+* Guaranteed counterbalance for random picks (condition, target presence, bars number)
 
 ## How to use
 ### Install requirements
- `$ pip install -r requirements.txt`
+`$ pip install -r requirements.txt`
 ### Run
 `$ python main.py`
 

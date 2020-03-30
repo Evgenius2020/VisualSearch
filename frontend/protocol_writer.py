@@ -12,7 +12,7 @@ class ProtocolWriter:
     def append_trial_result(self,
                             experiment: Experiment,
                             response_correct: bool,
-                            response_time: int):
+                            response_time: int) -> None:
         curr_trial = experiment.get_current_trial()
         if curr_trial is None:
             raise ValueError("Experiment is finished")
