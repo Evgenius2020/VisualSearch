@@ -32,7 +32,7 @@ class ExperimentSettings(QDialog):
         layout.addWidget(start_button)
         self.setLayout(layout)
 
-        def subject_name_edit_text_changed(text):
+        def subject_name_edit_text_changed(text: str):
             pf = text + Configuration.PROTOCOL_FILE_EXTENSION
             self.protocol_filename = pf
             protocol_filename_label.setText("Protocol file: '%s'" % pf)

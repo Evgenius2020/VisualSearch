@@ -1,3 +1,6 @@
+from backend.experiment import Experiment
+
+
 class ProtocolWriter:
     def __init__(self, file):
         self.__file__ = file
@@ -6,11 +9,13 @@ class ProtocolWriter:
              "target_presented", "target_vertical", "response_correct", "response_time"]) + '\n')
         self.__file__.flush()
 
-    def append_trial_result(self, experiment, response_correct, response_time):
-        if experiment.__is_end__:
-            raise ValueError("Experiment is finished")
-
+    def append_trial_result(self,
+                            experiment: Experiment,
+                            response_correct: bool,
+                            response_time: int):
         curr_trial = experiment.get_current_trial()
+        if curr_trial is None:
+            raise ValueError("Experiment is finished")
         curr_block = experiment.blocks[experiment.current_block_id]
         data = [experiment.subject_name, experiment.keyboard_key_for_presented, experiment.keyboard_key_for_absent,
                 experiment.current_block_id + 1, curr_block.condition.name, experiment.current_trial_id + 1,

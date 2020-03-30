@@ -1,6 +1,9 @@
+from typing import List
+
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QStackedWidget, QFormLayout
 
+from backend.trial import Bar
 from configuration import Configuration
 from frontend.pages.intro_page import IntroPage
 from frontend.pages.one_string_page import OneStringPage
@@ -15,7 +18,9 @@ class PagesWidget(QWidget):
     FEEDBACK_INCORRECT_PAGE = 4
     EXPERIMENT_END_PAGE = 5
 
-    def __init__(self, keyboard_key_for_presented, keyboard_key_for_absent):
+    def __init__(self,
+                 keyboard_key_for_presented: str,
+                 keyboard_key_for_absent: str):
         super().__init__()
 
         trial_page = TrialPage()
@@ -40,9 +45,9 @@ class PagesWidget(QWidget):
         self.change_page(self.INTRO_PAGE)
         self.showFullScreen()
 
-    def change_page(self, page):
+    def change_page(self, page: int):
         self.page = page
         self.__pages__.setCurrentIndex(page)
 
-    def set_trial_bars_to_display(self, bars):
+    def set_trial_bars_to_display(self, bars: List[Bar]):
         self.__trial_page__.set_bars_to_display(bars)
