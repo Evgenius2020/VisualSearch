@@ -1,8 +1,7 @@
 import unittest
 
 from backend.block import Block
-from backend.conditions import streak_switch_probability
-import backend.conditions as cond
+import backend.block as block
 from backend.utils import create_shuffled_array
 import configuration
 
@@ -11,7 +10,7 @@ class Tests(unittest.TestCase):
     def test_streak_switch_probability(self):
         right_probas = [0, 0, 0.09, 0.16, 0.21, 0.24, 0.25, 0.25, 0.25, 1, 1]
         for i in range(-1, 10):
-            self.assertAlmostEqual(streak_switch_probability(i), right_probas[i + 1], 3)
+            self.assertAlmostEqual(block.streak_switch_probability(i), right_probas[i + 1], 3)
 
     def check_entries(self, items, expected_entries):
         unique_elements = {el: None for el in items}
@@ -27,14 +26,14 @@ class Tests(unittest.TestCase):
         self.check_entries(create_shuffled_array([1, 2, 3]), {1: 1, 2: 1, 3: 1})
 
     def test_conditions_switch_generators(self):
-        switches = cond.conjunction_condition().switch_generator_function(10000)
+        switches = block.conjunction_rotations_generator(10000)
         self.check_entries(switches, {False: 10000})
 
-        switches = cond.switch_condition().switch_generator_function(10000)
+        switches = block.switch_rotations_generator(10000)
         self.check_entries(switches, {True: 10000})
 
         switch_cond_length = 10000
-        switches = cond.streak_condition().switch_generator_function(switch_cond_length)
+        switches = block.streak_rotations_generator(switch_cond_length)
         streak_size = 1
         streaks = {}
         for i in range(switch_cond_length):
@@ -46,15 +45,14 @@ class Tests(unittest.TestCase):
             streak_size += 1
         self.assertLessEqual(len(streaks.keys()), 8)
 
-        switches = cond.random_condition().switch_generator_function(10000)
+        switches = block.random_rotations_generator(10000)
         self.check_entries(switches, {True: 5000, False: 5000})
 
     def test_block_generation(self):
         configuration.TRIALS_PER_BLOCK = 100  # must be divided by 4
         tpb = configuration.TRIALS_PER_BLOCK
 
-        conj_block = Block(cond.conjunction_condition())
-        self.assertEqual(len(conj_block.trials), configuration.TRIALS_PER_BLOCK)
+        conj_block = block.conjunction_condition_block()
         self.check_entries([trial.target_is_presented for trial in conj_block.trials], {True: tpb / 2, False: tpb / 2})
         self.check_entries([trial.targets_number for trial in conj_block.trials],
                            {4: tpb / 4, 8: tpb / 4, 12: tpb / 4, 16: tpb / 4})
@@ -62,9 +60,10 @@ class Tests(unittest.TestCase):
         orientations = [trial.target_orientation_is_vertical for trial in conj_block.trials]
         self.assertListEqual(orientations, [start_orientation_is_vertical] * len(conj_block.trials))
 
-        switch_block = Block(cond.switch_condition())
+        switch_block = block.switch_condition_block()
         orientations = [trial.target_orientation_is_vertical for trial in switch_block.trials]
         self.check_entries(orientations, {True: tpb / 2, False: tpb / 2})
 
-        if __name__ == '__main__':
-            unittest.main()
+
+if __name__ == '__main__':
+    unittest.main()

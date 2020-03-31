@@ -18,7 +18,7 @@ class ProtocolWriter:
             raise ValueError("Experiment is finished")
         curr_block = experiment.blocks[experiment.current_block_id]
         data = [experiment.subject_name, experiment.keyboard_key_for_presented, experiment.keyboard_key_for_absent,
-                experiment.current_block_id + 1, curr_block.condition.name, experiment.current_trial_id + 1,
+                experiment.current_block_id + 1, curr_block.condition_name, experiment.current_trial_id + 1,
                 curr_trial.targets_number,
                 1 if curr_trial.target_is_presented else 0,
                 1 if curr_trial.target_orientation_is_vertical else 0,

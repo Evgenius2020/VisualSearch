@@ -1,11 +1,11 @@
 from random import random
-from typing import List, Optional
+from typing import Optional, List
 
+import configuration
 from backend.block import Block
-import backend.conditions as cond
+import backend.block as block
 from backend.trial import Trial
 from backend.utils import create_shuffled_array
-import configuration
 
 
 class Experiment:
@@ -25,13 +25,16 @@ class Experiment:
             self.keyboard_key_for_presented = configuration.KEYBOARD_KEY_2.upper()
             self.keyboard_key_for_absent = configuration.KEYBOARD_KEY_1.upper()
 
-        conditions = [cond.conjunction_condition(),
-                      cond.switch_condition(),
-                      cond.streak_condition(),
-                      cond.random_condition()]
-        conditions_repeats = [condition.blocks_number for condition in conditions]
-        conditions = create_shuffled_array(conditions, items_repeats=conditions_repeats)
-        self.blocks = [Block(condition) for condition in conditions]
+        block_generators = [block.conjunction_condition_block,
+                            block.switch_condition_block,
+                            block.streak_condition_block,
+                            block.random_condition_block]
+        conditions_repeats = [configuration.CONJUNCTION_CONDITION_BLOCKS_NUMBER,
+                              configuration.SWITCH_CONDITION_BLOCKS_NUMBER,
+                              configuration.STREAK_CONDITION_BLOCKS_NUMBER,
+                              configuration.RANDOM_CONDITION_BLOCKS_NUMBER]
+        block_generators = create_shuffled_array(block_generators, items_repeats=conditions_repeats)
+        self.blocks = [block_generator() for block_generator in block_generators]
         self.current_block_id = 0
         self.current_trial_id = 0
         self.__is_end__ = False
