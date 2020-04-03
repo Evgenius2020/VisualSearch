@@ -1,6 +1,5 @@
 import unittest
 
-from backend.block import Block
 import backend.block as block
 from backend.utils import create_shuffled_array
 import configuration
