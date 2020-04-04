@@ -5,19 +5,35 @@ import configuration
 from backend.block import Block
 import backend.block as block
 from backend.trial import Trial
-from backend.utils import create_shuffled_array
+from backend.utils import create_shuffled_list
 
 
 class Experiment:
+    """
+    Main entity. Contains all experiment values (expect trial results).
+
+    :param subject_name: Name of subject.
+
+    :ivar subject_name: Name of subject.
+    :ivar keyboard_key_for_presented: Keyboard key that associated with 'target presented' response.
+    :ivar keyboard_key_for_absent: Keyboard key that associated with 'target absent' response.
+    :ivar blocks: Generated set of blocks with specified (in configuration.py) condition counterbalance.
+    :ivar current_block_id: Index of current block.
+    :ivar current_trial_id: Index of current trial.
+    :ivar __is_end__: Completeness of experiment. Experiment is complete if the last trial of the last block has passed.
+    """
     subject_name: str
     keyboard_key_for_presented: str
     keyboard_key_for_absent: str
     blocks: List[Block]
     current_block_id: int
     current_trial_id: int
+    __is_end__: bool
 
-    def __init__(self, subject_name: str):
+    def __init__(self,
+                 subject_name: str):
         self.subject_name = subject_name
+        # Randomized keyboard bindings.
         if random() > 0.5:
             self.keyboard_key_for_presented = configuration.KEYBOARD_KEY_1.upper()
             self.keyboard_key_for_absent = configuration.KEYBOARD_KEY_2.upper()
@@ -33,18 +49,27 @@ class Experiment:
                               configuration.SWITCH_CONDITION_BLOCKS_NUMBER,
                               configuration.STREAK_CONDITION_BLOCKS_NUMBER,
                               configuration.RANDOM_CONDITION_BLOCKS_NUMBER]
-        block_generators = create_shuffled_array(block_generators, items_repeats=conditions_repeats)
+        # Random conditions sequence.
+        block_generators = create_shuffled_list(block_generators, items_repeats=conditions_repeats)
         self.blocks = [block_generator() for block_generator in block_generators]
         self.current_block_id = 0
         self.current_trial_id = 0
         self.__is_end__ = False
 
     def get_current_trial(self) -> Optional[Trial]:
+        """
+        Get current trial.
+
+        :return: Current trial or 'None' if experiment is complete.
+        """
         if self.__is_end__:
             return None
         return self.blocks[self.current_block_id].trials[self.current_trial_id]
 
     def go_next_trial(self) -> None:
+        """
+        Go to next trial.
+        """
         if self.__is_end__:
             return
 

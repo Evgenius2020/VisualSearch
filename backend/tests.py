@@ -1,7 +1,7 @@
 import unittest
 
 import backend.block as block
-from backend.utils import create_shuffled_array
+from backend.utils import create_shuffled_list
 import configuration
 
 
@@ -9,7 +9,7 @@ class Tests(unittest.TestCase):
     def test_streak_switch_probability(self):
         right_probas = [0, 0, 0.09, 0.16, 0.21, 0.24, 0.25, 0.25, 0.25, 1, 1]
         for i in range(-1, 10):
-            self.assertAlmostEqual(block.streak_switch_probability(i), right_probas[i + 1], 3)
+            self.assertAlmostEqual(block.streak_rotation_probability(i), right_probas[i + 1], 3)
 
     def check_entries(self, items, expected_entries):
         unique_elements = {el: None for el in items}
@@ -17,12 +17,12 @@ class Tests(unittest.TestCase):
         self.assertDictEqual(actual_entries, expected_entries)
 
     def test_create_shuffled_array(self):
-        self.check_entries(create_shuffled_array(range(1, 5), 25), {1: 7, 2: 7, 3: 7, 4: 7})
-        self.check_entries(create_shuffled_array(range(1, 5), 24), {1: 6, 2: 6, 3: 6, 4: 6})
-        self.check_entries(create_shuffled_array([1, 2, 3, 4], 10, [1, 2, 3, 4]), {1: 1, 2: 2, 3: 3, 4: 4})
-        self.check_entries(create_shuffled_array([1, 2, 3, 4], items_repeats=[1, 2, 3, 4]), {1: 1, 2: 2, 3: 3, 4: 4})
-        self.check_entries(create_shuffled_array([1, 2, 3, 4], 11, [1, 2, 3, 4]), {1: 2, 2: 4, 3: 6, 4: 8})
-        self.check_entries(create_shuffled_array([1, 2, 3]), {1: 1, 2: 1, 3: 1})
+        self.check_entries(create_shuffled_list(range(1, 5), 25), {1: 7, 2: 7, 3: 7, 4: 7})
+        self.check_entries(create_shuffled_list(range(1, 5), 24), {1: 6, 2: 6, 3: 6, 4: 6})
+        self.check_entries(create_shuffled_list([1, 2, 3, 4], 10, [1, 2, 3, 4]), {1: 1, 2: 2, 3: 3, 4: 4})
+        self.check_entries(create_shuffled_list([1, 2, 3, 4], items_repeats=[1, 2, 3, 4]), {1: 1, 2: 2, 3: 3, 4: 4})
+        self.check_entries(create_shuffled_list([1, 2, 3, 4], 11, [1, 2, 3, 4]), {1: 2, 2: 4, 3: 6, 4: 8})
+        self.check_entries(create_shuffled_list([1, 2, 3]), {1: 1, 2: 1, 3: 1})
 
     def test_conditions_switch_generators(self):
         switches = block.conjunction_rotations_generator(10000)

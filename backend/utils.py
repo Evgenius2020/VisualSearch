@@ -3,16 +3,21 @@ import random
 from typing import List
 
 
-def create_shuffled_array(
-        items: List,
+def create_shuffled_list(
+        items: list,
         expected_length: int = None,
-        items_repeats: List[int] = None) -> List:
-    """Creates list of shuffled 'items' elements
+        items_repeats: List[int] = None) -> list:
+    """
+    Creates list of shuffled 'items' elements with specified number of repeats.
 
-    :param items: source list
-    :param expected_length: expected length of result list; if it greater that len(items), repeats items
-    :param items_repeats: list of repeats number for each element
-    :return:
+    :param items: Source list of elements.
+    :param expected_length: Expected length of result list.
+        If 'expected_length' greater that len(items), repeats 'items' to reach this value.
+    :param items_repeats: List of repeats number for each element.
+
+    :raises: :class:`IndexError`: 'Items' and 'items_repeats' have different length.
+
+    :return: List of shuffled elements from 'item'.
     """
     if items_repeats is None:
         items_repeats = [1] * len(items)
@@ -20,7 +25,7 @@ def create_shuffled_array(
         expected_length = sum(items_repeats)
 
     if len(items) != len(items_repeats):
-        raise IndexError("items and items_repeats have different length")
+        raise IndexError("'Items' and 'items_repeats' have different length.")
 
     res = []
     for i in range(len(items)):
