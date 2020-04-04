@@ -26,7 +26,7 @@ On 'Start experiment' button pressed experiment will be started form Intro page.
 Protocol file saved automatically as .csv file. Default file is './subject.csv'.
 
 ## Changing configuration
-In Configuration.py you can change experiments parameters such as:
+In configuration.py you can change experiments parameters such as:
 * blocks/condition, trials/block number
 * fixation and feedback durations
 * keyboard keys

@@ -23,7 +23,7 @@ class Bar:
     :param bar_box_id: Number of screen grid sector bar box (0-3).
     :param color_is_red: Bar will be red if 'True', or green if 'False'.
     :param orientation_is_vertical: Bar will be vertical if 'True', or horizontal if 'False'.
-    :param shift: Random shift tuple (X,Y); values belongs [0.0, 1.0) range.
+    :param shift: Random shift tuple (x; y); values belongs [0.0, 1.0) range.
     """
     grid_sector_id: int
     bar_box_id: int
@@ -75,12 +75,12 @@ class Trial:
         if target_is_presented:
             bar_constructors = create_shuffled_list([target_bar, red_bar, green_bar],
                                                     items_repeats=[1,
-                                                                    targets_number // 2 - 1,
-                                                                    targets_number // 2])
+                                                                   targets_number // 2 - 1,
+                                                                   targets_number // 2])
         else:
             bar_constructors = create_shuffled_list([red_bar, green_bar],
                                                     items_repeats=[targets_number // 2,
-                                                                    targets_number // 2])
+                                                                   targets_number // 2])
 
         # Bars divided between sectors in 1:1:1:1 ratio.
         bar_boxes_per_sector = targets_number // 4
@@ -88,7 +88,7 @@ class Trial:
             bar_box_ids = create_shuffled_list([0, 1, 2, 3])
             for j in range(bar_boxes_per_sector):
                 bar_box_id = bar_box_ids[j]
-                # Random (X,Y) shift.
+                # Random (x; y) shift.
                 shift = (random(), random())
                 bars.append(
                     bar_constructors[grid_sector_id * bar_boxes_per_sector + j](

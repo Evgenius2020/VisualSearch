@@ -10,7 +10,7 @@ from backend.utils import create_shuffled_list
 
 class Experiment:
     """
-    Main entity. Contains all experiment values (expect trial results).
+    Main data entity. Contains all experiment values (expect trial results).
 
     :param subject_name: Name of subject.
 

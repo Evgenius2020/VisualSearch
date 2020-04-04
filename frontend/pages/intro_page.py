@@ -6,8 +6,22 @@ from frontend.pages.trial_page import TrialPage
 
 
 class IntroPage(QWidget):
+    """
+    Page with experiment description, key bindings and present/absent target trials examples.
+
+    :param keyboard_key_for_presented: Keyboard key that associated with 'target presented' response.
+    :param keyboard_key_for_absent: Keyboard key that associated with 'target absent' response.
+    """
     class ExamplePage(QWidget):
-        def __init__(self, trial_page: TrialPage, text: str):
+        """
+        Page with trial page and text description.
+
+        :param trial_page: Trial page to display.
+        :param text: Description text to display under 'trial_page'.
+        """
+        def __init__(self,
+                     trial_page: TrialPage,
+                     text: str):
             super().__init__()
             layout = QVBoxLayout(self)
             layout.addWidget(trial_page)
