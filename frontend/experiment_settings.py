@@ -1,7 +1,7 @@
 from typing import TextIO
 
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLineEdit, QLabel, QPushButton, QFileDialog, QCheckBox
+from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLineEdit, QLabel, QPushButton, QFileDialog, QCheckBox, QMessageBox
 
 import configuration
 
@@ -39,7 +39,7 @@ class ExperimentSettings(QDialog):
         select_file_button = QPushButton("Change filename")
         layout.addWidget(select_file_button)
         layout.addStretch(10)
-        fast_mode_check_box = QCheckBox("Fast mode (%d blocks, %d trials each)" %
+        fast_mode_check_box = QCheckBox("Fast mode (%d blocks, %d trials each; no practice)" %
                                         (configuration.FAST_MODE_BLOCKS_PER_CONDITION * 4,
                                          configuration.FAST_MODE_TRIALS_PER_BLOCK))
         layout.addWidget(fast_mode_check_box)
@@ -87,8 +87,20 @@ class ExperimentSettings(QDialog):
         def start_button_clicked() -> None:
             """
             On 'start_button' click, open csv file and close dialog.
+            If file open is failed, show message about it.
             """
-            self.csv_file = open(self.__csv_file_path__, "w")
+            try:
+                self.csv_file = open(self.__csv_file_path__, "w")
+            except OSError:
+                error_message_box = QMessageBox(parent=self)
+                error_message_box.icon = QMessageBox.Critical
+                error_message_box.setWindowTitle("File open failed")
+                error_message_box.setText(
+                    ("Failed to open csv file '%s'\n" % self.__csv_file_path__) +
+                    "Check that filename not contains forbidden symbols (e.g. '*', '|', '?') "
+                    "and this program have permissions to write to this file.")
+                error_message_box.show()
+                return
             self.fast_mode_enabled = fast_mode_check_box.isChecked()
             self.close()
 

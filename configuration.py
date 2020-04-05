@@ -22,6 +22,9 @@ BLOCK_END_REST_DURATION = 8000
 KEYBOARD_KEY_1 = "N"
 KEYBOARD_KEY_2 = "M"
 
+# Number of trials in pre-experiment practice.
+PRACTICE_TRIALS_NUMBER = 100
+
 # Experiment settings for fast mode.
 FAST_MODE_BLOCKS_PER_CONDITION = 1
 FAST_MODE_TRIALS_PER_BLOCK = 4
@@ -44,15 +47,19 @@ INTRO_TEXT = "In this experiment red and green bars will be presented on screen.
 KEY_BINDINGS_PRESENTED_FORMAT_STRING = "Press '%s' if TARGET is presented on screen."
 KEY_BINDINGS_ABSENT_FORMAT_STRING = "Press '%s' if TARGET is absent on screen."
 
-# Hint to start experiment at 'Intro' page.
-INTRO_TEXT_PRESS_SPACE_TEXT = "Press SPACE to start experiment."
+# Text at the end of 'Intro' page (no practice in fast mode).
+INTRO_END_TEXT = "Now you will pass some practice rounds.\nPress SPACE to start practice."
+INTRO_END_FAST_MODE_TEXT = "Press SPACE to start experiment."
 
 # Text at 'Feedback correct/incorrect' pages.
 FEEDBACK_CORRECT_TEXT = "Right!"
 FEEDBACK_INCORRECT_TEXT = "Wrong!"
 
+# Text at 'Practice start/end' pages.
+PRACTICE_END_TEXT = "Practice rounds are complete.\nPress SPACE to start experiment."
+
 # Text at 'Block end rest' page.
-BLOCK_END_REST_TEXT = "Take a rest..."
+BLOCK_END_REST_TEXT = "Take a rest ..."
 
 # Text at 'Experiment end' page.
 EXPERIMENT_END_TEXT = "Experiment complete. Thanks for participating!\nPress SPACE to close program."

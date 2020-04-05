@@ -9,7 +9,9 @@ Written for participation in the MARVIN contest by "Think Cognitive Think Scienc
 * Python3 implementation.
 * PyQt5 Client.
 * Trials results in csv file.
-* Added fixation before trials .
+* Fixation before trials.
+* Block end resting time.
+* Practice rounds.
 * Keyboard bindings randomization.
 * Guaranteed counterbalance for random picks (condition, target presence, bars number).
 

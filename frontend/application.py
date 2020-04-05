@@ -23,10 +23,12 @@ class Application(PagesWidget):
     :ivar __experiment__: Experiment.
     :ivar __csv_writer__: CsvWriter for experiment progress logging.
     :ivar __trial_start_timestamp__: Timestamp of last trial start. Used to measure response time.
+    :ivar __practice_complete_handled__: Boolean flag whether practice complete event is handled.
     """
     __experiment__: Experiment
     __csv_writer__: CsvWriter
     __trial_start_timestamp__: datetime
+    __practice_complete_handled__: bool
 
     def __init__(self,
                  experiment: Experiment,
@@ -36,19 +38,27 @@ class Application(PagesWidget):
         self.__experiment__ = experiment
         self.__csv_writer__ = csv_writer
         self.__trial_start_timestamp__ = None
+        self.__practice_complete_handled__ = False if configuration.PRACTICE_TRIALS_NUMBER > 0 else True
 
     def __on_trial_start__(self) -> None:
         """
         On trial start, change displayed bars and run fixation.
         If experiment is passed, go 'Experiment end' page.
+        If practice is passed, go 'Practice end' page.
         If trials block passed (not, go 'Block end rest' page.
         """
-        if self.__experiment__.is_experiment_end:
+        if self.__experiment__.is_experiment_complete:
             self.change_page(self.experiment_end_page_id)
             return
 
-        if self.__experiment__.is_block_passed:
-            self.__experiment__.is_block_passed = False
+        if not self.__practice_complete_handled__ and \
+                self.__experiment__.is_practice_complete:
+            self.__practice_complete_handled__ = True
+            self.change_page(self.practice_end_page_id)
+            return
+
+        if self.__experiment__.is_block_complete:
+            self.__experiment__.is_block_complete = False
             self.change_page(self.block_end_rest_page_id)
             QTimer.singleShot(configuration.BLOCK_END_REST_DURATION, self.__on_trial_start__)
             return
@@ -79,9 +89,11 @@ class Application(PagesWidget):
         else:
             self.change_page(self.feedback_incorrect_page_id)
 
-        self.__csv_writer__.write_trial_result(self.__experiment__,
-                                               response_correct,
-                                               response_time)
+        # No logging at practice trials.
+        if self.__experiment__.is_practice_complete:
+            self.__csv_writer__.write_trial_result(self.__experiment__,
+                                                   response_correct,
+                                                   response_time)
         self.__experiment__.go_next_trial()
         QTimer.singleShot(configuration.FEEDBACK_DURATION,
                           self.__on_trial_start__)
@@ -90,11 +102,11 @@ class Application(PagesWidget):
                       e: QKeyEvent) -> None:
         """
         keyPressEvent handling depending on current page.
-        
+
         :param e: QKeyEvent.
         """
         if self.page_id == self.intro_page_id:
-            # At 'Intro' page, subject can press 'space' to start experiment.
+            # At 'Intro' page, subject can press SPACE to continue.
             if e.key() == QtCore.Qt.Key_Space:
                 self.__on_trial_start__()
         elif self.page_id == self.trial_page_id:
@@ -111,8 +123,12 @@ class Application(PagesWidget):
                     answer == self.__experiment__.keyboard_key_for_absent
 
                 self.__on_trial_response__(response_correct, time_delta)
+        elif self.page_id == self.practice_end_page_id:
+            # At 'Practice end' page, subject can press SPACE to start experiment trials.
+            if e.key() == QtCore.Qt.Key_Space:
+                self.__on_trial_start__()
         elif self.page_id == self.experiment_end_page_id:
-            # At 'Experiment end' page, subject can press 'space' to close application.
+            # At 'Experiment end' page, subject can press SPACE to close application.
             if e.key() == QtCore.Qt.Key_Space:
                 self.close()
 
@@ -135,6 +151,9 @@ def run_application() -> None:
         configuration.STREAK_CONDITION_BLOCKS_NUMBER = configuration.FAST_MODE_BLOCKS_PER_CONDITION
         configuration.RANDOM_CONDITION_BLOCKS_NUMBER = configuration.FAST_MODE_BLOCKS_PER_CONDITION
         configuration.TRIALS_PER_BLOCK = configuration.FAST_MODE_TRIALS_PER_BLOCK
+        # No practice in fast mode.
+        configuration.INTRO_END_TEXT = configuration.INTRO_END_FAST_MODE_TEXT
+        configuration.PRACTICE_TRIALS_NUMBER = 0
     application = Application(Experiment(experiment_settings.subject_name),
                               CsvWriter(experiment_settings.csv_file))
     qa.exec_()

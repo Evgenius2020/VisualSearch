@@ -14,6 +14,7 @@ class Block:
 
     :param condition_name: Name of condition.
     :param rotations_generator: Function that returns list of bool (True = 'rotate') values with specified length.
+    :param trials_number: Number of trials to generate.
 
     :ivar condition_name: Name of condition.
     :ivar trials: Generated set of trials.
@@ -23,14 +24,15 @@ class Block:
 
     def __init__(self,
                  condition_name: str,
-                 rotations_generator: Callable[[int], List[bool]]):
+                 rotations_generator: Callable[[int], List[bool]],
+                 trials_number: int = configuration.TRIALS_PER_BLOCK):
         orientation_is_vertical = random() > 0.5
-        switches = rotations_generator(configuration.TRIALS_PER_BLOCK)
-        targets_number = create_shuffled_list([4, 8, 12, 16], configuration.TRIALS_PER_BLOCK)
-        target_is_presented = create_shuffled_list([True, False], configuration.TRIALS_PER_BLOCK)
+        switches = rotations_generator(trials_number)
+        targets_number = create_shuffled_list([4, 8, 12, 16], trials_number)
+        target_is_presented = create_shuffled_list([True, False], trials_number)
         target_orientations = []
         trials = []
-        for i in range(configuration.TRIALS_PER_BLOCK):
+        for i in range(trials_number):
             if switches[i]:
                 orientation_is_vertical = not orientation_is_vertical
             target_orientations.append(orientation_is_vertical)
