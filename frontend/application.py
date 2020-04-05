@@ -41,12 +41,19 @@ class Application(PagesWidget):
         """
         On trial start, change displayed bars and run fixation.
         If experiment is passed, go 'Experiment end' page.
+        If trials block passed (not, go 'Block end rest' page.
         """
-        self.__current_trial__ = self.__experiment__.get_current_trial()
-        if self.__current_trial__ is None:
+        if self.__experiment__.is_experiment_end:
             self.change_page(self.experiment_end_page_id)
             return
 
+        if self.__experiment__.is_block_passed:
+            self.__experiment__.is_block_passed = False
+            self.change_page(self.block_end_rest_page_id)
+            QTimer.singleShot(configuration.BLOCK_END_REST_DURATION, self.__on_trial_start__)
+            return
+
+        self.__current_trial__ = self.__experiment__.get_current_trial()
         self.set_trial_bars_to_display(self.__current_trial__.bars_to_display)
         self.change_page(self.fixation_page_id)
         QTimer.singleShot(configuration.FIXATION_DURATION, self.__on_fixation_end__)
@@ -110,7 +117,7 @@ class Application(PagesWidget):
                 self.close()
 
 
-def run_application():
+def run_application() -> None:
     """
     Run application.
     1) ExperimentSettings dialog will be shown.

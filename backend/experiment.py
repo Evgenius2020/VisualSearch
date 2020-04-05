@@ -20,7 +20,8 @@ class Experiment:
     :ivar blocks: Generated set of blocks with specified (in configuration.py) condition counterbalance.
     :ivar current_block_id: Index of current block.
     :ivar current_trial_id: Index of current trial.
-    :ivar __is_end__: Completeness of experiment. Experiment is complete if the last trial of the last block has passed.
+    :ivar is_block_passed: Completeness of block. Block is complete if its last trial has passed.
+    :ivar is_experiment_end: Completeness of experiment. Experiment is complete if its last block has passed.
     """
     subject_name: str
     keyboard_key_for_presented: str
@@ -28,7 +29,8 @@ class Experiment:
     blocks: List[Block]
     current_block_id: int
     current_trial_id: int
-    __is_end__: bool
+    is_block_passed: bool
+    is_experiment_end: bool
 
     def __init__(self,
                  subject_name: str):
@@ -54,7 +56,8 @@ class Experiment:
         self.blocks = [block_generator() for block_generator in block_generators]
         self.current_block_id = 0
         self.current_trial_id = 0
-        self.__is_end__ = False
+        self.is_block_passed = False
+        self.is_experiment_end = False
 
     def get_current_trial(self) -> Optional[Trial]:
         """
@@ -62,7 +65,7 @@ class Experiment:
 
         :return: Current trial or 'None' if experiment is complete.
         """
-        if self.__is_end__:
+        if self.is_experiment_end:
             return None
         return self.blocks[self.current_block_id].trials[self.current_trial_id]
 
@@ -70,12 +73,13 @@ class Experiment:
         """
         Go to next trial.
         """
-        if self.__is_end__:
+        if self.is_experiment_end:
             return
 
         self.current_trial_id += 1
         if self.current_trial_id == configuration.TRIALS_PER_BLOCK:
             self.current_trial_id = 0
             self.current_block_id += 1
+            self.is_block_passed = True
             if self.current_block_id == len(self.blocks):
-                self.__is_end__ = True
+                self.is_experiment_end = True

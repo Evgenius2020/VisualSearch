@@ -22,6 +22,7 @@ class PagesWidget(QWidget):
     :ivar trial_page_id: Id of 'Trial' page.
     :ivar feedback_correct_page_id: Id of 'Feedback correct' page.
     :ivar feedback_incorrect_page_id: Id of 'Feedback incorrect' page.
+    :ivar block_end_rest_page_id: Id of 'Block end rest' page.
     :ivar experiment_end_page_id: Id of 'Experiment end' page.
 
     :ivar page_id: Current page id.
@@ -51,6 +52,7 @@ class PagesWidget(QWidget):
         pages.addWidget(trial_page)  # Trial
         pages.addWidget(OneStringPage(configuration.FEEDBACK_CORRECT_TEXT, "green"))  # Feedback correct
         pages.addWidget(OneStringPage(configuration.FEEDBACK_INCORRECT_TEXT, "red"))  # Feedback incorrect
+        pages.addWidget(OneStringPage(configuration.BLOCK_END_REST_TEXT))  # Block end rest
         pages.addWidget(OneStringPage(configuration.EXPERIMENT_END_TEXT))  # Experiment end
 
         self.setStyleSheet(
@@ -67,7 +69,8 @@ class PagesWidget(QWidget):
         self.trial_page_id = 2
         self.feedback_correct_page_id = 3
         self.feedback_incorrect_page_id = 4
-        self.experiment_end_page_id = 5
+        self.block_end_rest_page_id = 5
+        self.experiment_end_page_id = 6
 
         self.page_id = self.intro_page_id
         self.__trial_page__ = trial_page

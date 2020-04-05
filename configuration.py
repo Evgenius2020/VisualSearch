@@ -13,9 +13,10 @@ RANDOM_CONDITION_BLOCKS_NUMBER = 3
 # Number of trials per block. This value taken from section '2.3. Procedure'.
 TRIALS_PER_BLOCK = 100
 
-# Duration, feedback durations in milliseconds.
+# Duration, feedback and block end rest durations in milliseconds.
 FIXATION_DURATION = 500
 FEEDBACK_DURATION = 1000
+BLOCK_END_REST_DURATION = 8000
 
 # Keyboard keys for subjects responses at trials. This experiment requires two keys (not including 'SPACE' key).
 KEYBOARD_KEY_1 = "N"
@@ -49,6 +50,9 @@ INTRO_TEXT_PRESS_SPACE_TEXT = "Press SPACE to start experiment."
 # Text at 'Feedback correct/incorrect' pages.
 FEEDBACK_CORRECT_TEXT = "Right!"
 FEEDBACK_INCORRECT_TEXT = "Wrong!"
+
+# Text at 'Block end rest' page.
+BLOCK_END_REST_TEXT = "Take a rest..."
 
 # Text at 'Experiment end' page.
 EXPERIMENT_END_TEXT = "Experiment complete. Thanks for participating!\nPress SPACE to close program."
