@@ -25,9 +25,9 @@ KEYBOARD_KEY_2 = "M"
 FAST_MODE_BLOCKS_PER_CONDITION = 1
 FAST_MODE_TRIALS_PER_BLOCK = 4
 
-# Default subject name and protocol filename.
+# Default subject name and csv filename.
 DEFAULT_SUBJECT_NAME = "subject"
-DEFAULT_PROTOCOL_FILENAME = DEFAULT_SUBJECT_NAME
+DEFAULT_CSV_FILENAME = DEFAULT_SUBJECT_NAME
 
 # Extension of csv files.
 CSV_FILE_EXTENSION = ".csv"

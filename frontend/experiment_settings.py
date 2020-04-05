@@ -47,6 +47,16 @@ class ExperimentSettings(QDialog):
         layout.addWidget(start_button)
         self.setLayout(layout)
 
+        def csv_filename_label_set_text(csv_filename: str) -> None:
+            """
+            Put new csv filename in 'csv_filename_label' (shorten if needed).
+
+            :param csv_filename: Csv filename.
+            """
+            if len(csv_filename) > 25:
+                csv_filename = "..." + csv_filename[-25:]
+            csv_filename_label.setText("Csv file: '%s'" % csv_filename)
+
         def subject_name_edit_text_changed(new_subject_name: str) -> None:
             """
             Save new name and set it as csv filename.
@@ -56,7 +66,7 @@ class ExperimentSettings(QDialog):
             self.subject_name = new_subject_name
             csv_filename = new_subject_name + configuration.CSV_FILE_EXTENSION
             self.__csv_file_path__ = csv_filename
-            csv_filename_label.setText("Protocol file: '%s'" % csv_filename)
+            csv_filename_label_set_text(csv_filename)
 
         def select_file_button_clicked() -> None:
             """
@@ -64,7 +74,7 @@ class ExperimentSettings(QDialog):
             On file selected, saves path and show it's name in 'csv_filename_label'.
             """
             csv_filename = QFileDialog.getSaveFileName(None,
-                                                       "Select protocol file",
+                                                       "Select csv file",
                                                        self.subject_name,
                                                        "*" + configuration.CSV_FILE_EXTENSION)[0]
             # 'Cancel' handling.
@@ -72,9 +82,7 @@ class ExperimentSettings(QDialog):
                 return
 
             self.__csv_file_path__ = csv_filename
-            if len(csv_filename) > 35:
-                pf = "..." + csv_filename[-35:]
-            csv_filename_label.setText("Protocol file: '%s'" % csv_filename)
+            csv_filename_label_set_text(csv_filename)
 
         def start_button_clicked() -> None:
             """
