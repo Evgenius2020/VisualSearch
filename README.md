@@ -34,3 +34,9 @@ In configuration.py you can change experiments parameters such as:
 * Keyboard keys.
 * Intro, feedback text (localization).
 
+## Contributors & contacts
+* Zavarzin Evgeny Andreevich <zavarzinevg@gmail.com>
+
+## License
+Licensed under the [MIT License](LICENSE)
+
